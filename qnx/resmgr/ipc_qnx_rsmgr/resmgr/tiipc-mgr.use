@@ -1,0 +1,20 @@
+TI IPC Resource Manager
+
+%C [Specific options]
+
+[Specific options]:
+    Specific options are separated by commas
+
+vring_base=base        VRING base physical address
+vring_size=size        VRING window size
+
+Examples:
+
+Starts a TI IPC Resource Manager with default vring base address mentioned in the code.
+
+%C
+
+Starts a TI IPC Resource Manager with user specified vring base address and size
+Note: The size differ per SoC.  J721E, J721S2 --> 0x1c00000. J7200 --> 0x800000, J784S4 --> 0x3000000, AM62x --> 0x300000, AM62A --> 0x300000, J722S --> 0x300000
+
+%C vring_base=0xb0000000,vring_size=0x1c00000

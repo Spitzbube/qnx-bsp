@@ -1,0 +1,51 @@
+%C j721e cpsw 9G virtual ethernet driver based on enet low level driver
+
+Syntax:
+  io-pkt-v6-hc -d cpsw9g [option[,option ...]] ...
+
+Options (to override autodetected defaults):
+  verbose=num                Set verbosity level (default: 0).
+  ptp=0|1                    1 to enable PTP support (default: 0)
+  typed_mem=name             Set the typed memory
+  udma_chnum=val             Set the preferred udma channel to use (default: dynamic allocation)
+  tx_freeq_threshold=val     Set the tx free Q threshold value (default: 120), must be less than no of TX descriptors.
+  tx_descriptor_cnt=val      Set the tx descriptors count value (default: 128, Max: 256)
+  rx_descriptor_cnt=val      Set the rx descriptors count value (default: 128, Max: 256)
+  run_mask_cpu=val           Set the run mask - cpu core where threads are scheduled (default: On all cpu)
+                             On J721E -> Specify  0 for cpu0, 1 for cpu1, 2 for both cpu
+                             On J784S4 -> Specify 0 for cpu0, 1 for cpu1, 2 for cpu & cpu1 and so on. Specify 255 (0xff) for on all 8 cpu.
+  poll_phy_ms=val            Set the frequency in ms, to poll the phy status, and poll for management of resources (default: 10000)
+  cache_ops=val              Set the cache operation to on/off (default:0  -> cache-coherency set), 1 - Turn on cache off -> cache-coherency off)
+  smmu=0|1                   1 to enable smmu support (default: 0)
+  virt_id=val                Set the virt_id to use for the dma channel when smmu is enabled
+  mac-to-mac=1               Set for mac-to-mac mode (default: 0) (only when EthFW is setup for mac-to-mac mode)
+  speed=100|1000             Media data rate for link in Mb/s. (default: 1000)
+  joinvlan="1;2;3..."        List of VLANs to join
+  rx_intr_prio=val           Set the rx interrupt thread priority (default: 21)
+  tx_intr_prio=val           Set the tx interrupt thread priority (default: 21)
+  no_stack_thread=val        1 to disable using the stack thread needed for bridge and fastforward to work  (default: 0)
+  hw_csum=1                  1 to enable hw csum (default: 0)
+  p0mac=XXXXXXXXXXXX         Custom MAC address to use on virtual port
+  rx_pacing=0|1              1 to enable rx interrupt pacing (default:0, use rx interrupt)
+  rx_pacing_msec=val         Set the rx interrupt pacing internal in msec (default: 1 msec)
+  cpsw_connect_attempts=val  Set the maximum number of attempts to connect to cpsw ethfw before failing (default: 10)
+  cpsw_connect_delay_ms=val  Set the delay between attempts to connect to cpsw ethfw in ms (default: 100)
+                             Note: in some circumstances using too short of a delay may cause a contention between 
+                             the QNX virtual driver and other remote clients when initially trying to connect.
+
+Examples:
+  # Start io-pkt using the driver:
+  io-pkt-v6-hc -d cpsw9g
+  ifconfig an0 192.0.2.1
+
+  # Start io-pkt using the driver with typed memory "ram":
+  io-pkt-v6-hc -d cpsw9g typed_mem=ram -ptcpip pkt_typed_mem=ram
+  ifconfig an0 192.0.2.1
+
+  # Start io-pkt using the driver with typed memory "ram", preferred udma channel "24" and smmu enabled:
+  io-pkt-v6-hc -d cpsw9g ptp=1,typed_mem=ram,udma_chnum=24,smmu=1 -ptcpip pkt_typed_mem=ram
+  ifconfig an0 192.0.2.1
+
+  # Start io-pkt using the driver for mac-to-mac mode in gitbit speed
+  io-pkt-v6-hc -d cpsw9g mac-to-mac=1,speed=1000
+  ifconfig am0 192.0.2.1

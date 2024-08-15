@@ -1,0 +1,3 @@
+SCI client test to show how to set clock for GPU
+
+Call "sciclient_clk_test" for running the test.

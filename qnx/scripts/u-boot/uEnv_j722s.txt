@@ -1,0 +1,20 @@
+# This uEnv.txt file can contain additional environment settings that you
+# want to set in U-Boot at boot time.  This can be simple variables such
+# as the serverip or custom variables.  The format of this file is:
+#    variable=value
+# NOTE: This file will be evaluated after the bootcmd is run and the
+#       bootcmd must be set to load this file if it exists (this is the
+#       default on all newer U-Boot images.  This also means that some
+#       variables such as bootdelay cannot be changed by this file since
+#       it is not evaluated until the bootcmd is run.
+
+dtb_name=psdk_linux_9.2_k3-j722s-evm.dtb
+ifs_load_addr=0x80080000
+dtb_load_addr=0x88000000
+dorprocboot=1
+
+
+configure_emmc_boot=setenv rproc_fw_binaries 0 /firmware/j722s-mcu-r5f0_0-fw 2 /firmware/j722s-main-r5f0_0-fw 3 /firmware/j722s-c71_0-fw 4 /firmware/j722s-c71_1-fw; setenv bootpart 0:1
+
+
+uenvcmd=if test ${mmcdev} -eq 0; then run configure_emmc_boot; else; fi; run boot_rprocs; fatload mmc ${mmcdev} ${ifs_load_addr} qnx-ifs; if test -e mmc ${mmcdev}:1 ${dtb_name}; then fatload mmc ${mmcdev} ${dtb_load_addr} ${dtb_name}; go ${ifs_load_addr} ${dtb_load_addr}; else go ${ifs_load_addr}; fi

@@ -1,0 +1,6 @@
+TI UDMA Resource Manager
+
+Syntax:
+  tiudma-mgr [-v]
+
+   -v - Turn on verbose

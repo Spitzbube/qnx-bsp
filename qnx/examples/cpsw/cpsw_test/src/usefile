@@ -1,0 +1,9 @@
+cpsw_test - Test cpsw driver via ioctls
+
+Options:
+-i <interface>     -> interface can be am0, an0
+-t <test_no>       -> test to run
+-l                 -> list all tests
+
+example 1: cpsw_test -l
+example 2: cpsw_test -i am0 -t 1

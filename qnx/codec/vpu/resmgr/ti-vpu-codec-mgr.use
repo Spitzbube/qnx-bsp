@@ -1,0 +1,7 @@
+TI VPU Codec Resource Manager
+
+Syntax:
+  ti-vpu-codec-mgr [-v verbose] [-c coreIdx] [-f firmwarePath]
+
+   verbose: increase verbosity, max 7 (default 5)
+

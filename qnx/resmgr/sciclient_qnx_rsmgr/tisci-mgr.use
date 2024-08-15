@@ -1,0 +1,16 @@
+TI SCI Resource Manager
+
+Syntax:
+  tisci-mgr [-v] [-p]
+
+Options:
+  -v - Turn on verbose
+  -p - Configure sciclient calls to run in polling mode (default interrupt mode)
+       Note: Interrupt mode is not supported on J722S, and therefore tisci-mgr
+       defaults to polling mode without this option.
+       Note: Currently interrupt mode is not functional with SDP 8.0 and will
+       also default to polling mode.
+
+Note:
+  The previous default operation mode for sciclient calls was polling mode. If
+  problems are found with tisci-mgr try starting with the -p option.

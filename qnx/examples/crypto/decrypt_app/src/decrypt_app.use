@@ -1,0 +1,17 @@
+%C - This application shows a basic example of decryption
+
+Syntax:
+    decrypt_app  <options>    
+
+Options (to override autodetected defaults):
+
+    f<filename>  GPIO Module [0:7]
+    v            Enable verbosity
+    
+Example:
+    # Decrypt a signed file, called signed_image, be verbos
+    # with output
+    decrypt_app -f signed_image -v
+    
+Notes:
+    - A signed file, is required to run this application.

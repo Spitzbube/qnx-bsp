@@ -1,0 +1,3 @@
+OSAL Semaphore test
+
+Call "osal_sem_testapp -h" for usage.

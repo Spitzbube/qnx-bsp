@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<module name="devnp-cpsw9g">
+  <classification>Driver</classification>
+  <description>
+    <short>j721e cpsw9g  ethernet driver using enet low level driver</short>
+    <abstract><![CDATA[
+                The j721e cpsw9g  ethernet driver using enet low level driver.
+            ]]></abstract>
+  </description>
+  <supports>
+    <availability>
+      <cpu isa="aarch64">
+        <byteOrder>le</byteOrder>
+      </cpu>
+    </availability>
+  </supports>
+  <contents>
+    <component id="driver" generated="true">
+      <location basedir="aarch64/dll.le">devnp-cpsw9g.so</location>
+    </component>
+  </contents>
+  <requires>
+    <part build="true" location="lib/io-pkt/sys/lib/libnetdrvr"/>
+  </requires>
+</module>

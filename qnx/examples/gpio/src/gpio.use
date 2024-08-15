@@ -1,0 +1,53 @@
+%C - This is a utility inspect or manipulate GPIOs
+
+ 
+Syntax:
+    gpio  <options>    
+
+Options (to override autodetected defaults):
+
+    m          GPIO Module [0:7]
+    n          GPIO number with module [0:127]
+    
+    a          Set GPIO as input, and attach an interrupt
+    c<"command">    Command line, command to run when interrupt is raised
+    d           Dump GPIO
+    h           Set GPIO to output high
+    l           Set GPIO to output low
+    i           Set GPIO to input
+    o           Set GPIO to output
+    
+Examples:
+    # Set GPIO0_0 to input, and detect on rising edge.  Attach IRQ 392
+    # and run 'date' each time interrupt is hit.  
+    gpio -m0 -n0 -a392 -i -r1 -c"date" &
+    
+    # Dump out current settings for GPIO1_2
+    gpio -m1 -n2 -d
+    
+Notes:
+    - Error / range checking of values for validity is not implemented in this utility.
+    
+    - The CTRLMMR_PADCONFx register is not set as part of this utility.  A recommended value is 0x40007, 
+      where the '7' can change depending on the how the modes of the pin are defined, see Data Manaul for
+      pin defintions.
+    
+         For Example: gpio0_0 uses register CTRMMR_PADCONFIG0 (0x0011C000)
+             To read current value: in32 0x0011c0000
+             To write current value : out32 0x0011c000 0x40007
+
+    - This example application has been written and tested for Main domain GPIOs only.
+    
+J721EVM: 
+         If testing on the J721e EVM, there is a push button (SW10) available that can be used to drive
+         GPIO0_0.  As per above examples and notes, the interrupt for push button (SW10) can be caught
+         by using the below command line, commands:
+         
+         # Set PADCONFIG for GPIO0_0
+         out32 0x0011c000 0x40007
+         
+         # Configure GPIO module, Interrupt Mux, and attach interrupt
+         gpio-j7 -m0 -n0 -a392 -i -r1 &
+         
+         # To see bit fields being set / unset, when pushing / holding SW10
+         gpio -m0 -n0 -d

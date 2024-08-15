@@ -1,0 +1,25 @@
+%C - This is a VPU Decoder unit-test for file-to-file mode
+
+Syntax:
+    vpu_decoder_test <options>
+
+Options (describes primary options, run with -h for more details)
+    h               Help
+    codec           Codec format (mandatory if using non HEVC encoded input files). Use 0 for AVC, and 12 for HEVC
+    enable-uvintlv  Enables Interleaved UV (CbCr) support, for NV12 output format
+    input           Input encoded file to decode (mandatory)
+    output          Output decoded file (mandatory)
+    coreIdx         Codec instance to use (default: 0), instance 1 is supported only on J784S4 SoCs.
+
+Examples:
+    # Basic help built into the executable
+    vpu_decoder_test -h
+
+    # AVC file-to-file decode
+    vpu_decoder_test --codec 0 --enable-uvintlv --input /ti_fs/codec_test/bitstream/HistoryOfTI-480p.264 --output /tmp/HistoryOfTI-480p.264-720x416_nv12.yuv --coreIdx 0
+
+    # HEVC file-to-file decode
+    vpu_decoder_test --enable-uvintlv --input /ti_fs/codec_test/bitstream/TearOfSteel-Short-1280x720.265 --output /tmp/TearOfSteel-Short-1280x720.265_nv12.yuv --coreIdx 0
+
+Notes:
+    - This test is applicable only on J721S2 & J784S4 SoCs

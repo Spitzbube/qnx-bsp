@@ -1,0 +1,25 @@
+This is a test application for OpenMAX IL video decode.
+It takes H.264/HEVC frames from a file, decodes and displays them,
+or decodes and saves the decoded frames in another file.
+
+Syntax:
+    omxil_video_dec <options>
+
+Options:
+    -i: input file
+    -o: output file, save output to file
+    -L: number of buffers for decode, less than 32
+        - default value decided by codec hardware
+    -M: number of output buffers, between 3 and 64 (default 12)
+    -C: VPU Core to choose (0 only for j721s2, 0,1 for j784s4)
+    -v: increase verbosity, max 7
+    -n: use the second instance of the carveout. Used for multi-instance testing
+    -E: spatial & temporal error concealment
+
+Examples:
+    # AVC file-to-file decode:
+    omxil_video_dec -v -i /ti_fs/codec_test/bitstream/example.264 -o /ti_fs/codec_test/output/example_nv12.yuv
+
+    # HEVC file-to-file decode:
+    omxil_video_dec -v -i /ti_fs/codec_test/bitstream/example.265 -o /ti_fs/codec_test/output/example_hevc_nv12.yuv
+

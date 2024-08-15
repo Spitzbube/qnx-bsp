@@ -1,0 +1,44 @@
+This is a test application for OpenMAX IL video encode.
+It takes input frames from a .yuv file and encodes them to a H.264 or HEVC bitstream file.
+
+Syntax:
+    omxil_video_enc <options>
+
+Options:
+    -C: VPU Core to choose (0 only for j721s2, 0,1 for j784s4)
+    -v: increase verbosity, max 7
+    -n: stdin not used (no command-line inputs taken)
+    -i: input file
+    -o: output file
+    -s: coding standard (0 = AVC, 1 = HEVC)
+    -c: config file for encoder parameters
+    -d: disable display
+    -a: multi instance mode:
+            0 or no option - Use the default memory layout
+            1 or 2 - Use either one of the memory layout
+    -f: input format for raw input (.yuv/.rgba/etc.)
+       e.g.: nv12,1920x1080@30
+             nv12 is the input color format
+             1920x1080 is resolution(width x height)
+             30 is frame rate.
+  Supported input format: nv12.
+    -L: Enable lossless encoding
+    -G: Select GOP preset
+         0 for custom_GOP (default / user defined structure)
+         1 for all I frames
+         9 for consecutive P frames, with single reference I frame
+
+Examples:
+    # Basic built-in help:
+    omxil_video_enc -h
+
+    # HEVC file-to-file encode:
+    omxil_video_enc -vv -s 1 -i /ti_fs/codec_test/vpu/nv12/8bit_BQTerrace_720x128_9frame_nv12.yuv -o /ti_fs/codec_test/vpu/output/8bit_BQTerrace_720x128.265 -d -f nv12,720x128@30
+
+    # AVC file-to-file encode:
+    omxil_video_enc -vv -s 0 -i /ti_fs/codec_test/vpu/nv12/8bit_BQTerrace_720x128_9frame_nv12.yuv -o /ti_fs/codec_test/vpu/output/8bit_BQTerrace_720x128.264 -d -f nv12,720x128@30
+
+    # HEVC file-to-file encode, with config file specified to override default bitrate, etc. :
+    cp /ti_fs/codec_test/vpu/nv12/mix_1920x1080_8b_10frm_nv12.yuv /tmp/
+    omxil_video_enc -vv -s 1 -i /tmp/mix_1920x1080_8b_10frm_nv12.yuv -c /ti_fs/codec_test/vpu/cfg/encoder_parameters.conf -o /tmp/mix_1920x1080.265 -d -f nv12,1920x1080@30
+

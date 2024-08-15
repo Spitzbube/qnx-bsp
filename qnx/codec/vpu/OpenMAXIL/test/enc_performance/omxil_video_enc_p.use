@@ -1,0 +1,34 @@
+This is a performance test application for OpenMAX IL video encode
+It takes a few input frames from a .yuv file and encodes them, repeatedly, to a H.264 or HEVC bitstream file.
+
+Syntax:
+    omxil_video_enc_p <options>
+
+Options:
+    -C: VPU Core to choose (0 only for j721s2, 0,1 for j784s4)
+    -v: increase verbosity, max 7
+    -n: stdin not used (no command-line inputs taken)
+    -i: input file
+    -o: output file
+    -s: coding standard (0 = AVC, 1 = HEVC)
+    -c: config file for encoder parameters
+    -d: disable display
+    -l: length of recording in seconds(default is 10 second)
+    -a: multi instance mode:
+            0 or no option - Use the default memory layout
+            1 or 2 - Use either one of the memory layout
+    -f: input format for raw input (.yuv/.rgba/etc.)
+       e.g.: nv12,1920x1080@30
+             nv12 is the input color format
+             1920x1080 is resolution(width x height)
+             30 is frame rate.
+  Supported input format: nv12.
+
+Examples:
+    # Basic built-in help:
+    omxil_video_enc_p -h
+
+    # Test AVC encode performance for recording length of 2 seconds:
+    cp /ti_fs/codec_test/vpu/nv12/jellyfish_59frm_1920x1080_nv12.yuv /tmp/
+    omxil_video_enc_p -vv -n -i /tmp/jellyfish_59frm_1920x1080_nv12.yuv -c /ti_fs/codec_test/vpu/cfg/encoder_parameters.conf -o /tmp/jellyfish_1920x1080.264 -d -l 2 -f nv12,1920x1080@30
+

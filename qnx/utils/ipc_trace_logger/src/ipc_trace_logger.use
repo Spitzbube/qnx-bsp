@@ -1,0 +1,19 @@
+TI ipc trace logger
+This tool prints to debug out.
+
+Syntax:
+ipc_trace_logger [Specific options]
+
+[Specific options]:
+    Specific options are separated by commas
+
+tracebuffer_base=base        trace buffer base physical address
+tracebuffer_size=size        (optional) trace buffer size  (default: 0x80000)
+print_to_slog=<val>          (optional) Output to slog (val=1) or DebugOut (val=0) (default: 0)
+wait_mode=<val>              (optional) wait mode, listen to new prints(val=1) or exit after done (val=0) (default: 0)
+
+
+
+example:
+    Run the logger to print to slog and wait mode
+    ipc_trace_logger tracebuffer_base=0xa2b12400,tracebuffer_size=0x80000,print_to_slog=1,wait_mode=1

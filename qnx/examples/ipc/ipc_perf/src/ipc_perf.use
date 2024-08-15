@@ -1,0 +1,14 @@
+TI ipc perf
+Pre-requisite: Need to load ipc echo test firmware image to remote cores.
+
+Options:
+     -v Get more verbose logs on the message sent and received.
+     -s skip a pre-defined list of remote cores. This is needed for the standard
+        configuration that we support on QNX where the MCU1_0 and MCU1_1 run
+        DM firmware.
+     -n Number of messages to be exchanged between A72 and each remote core.
+     -c Run the perf for a single core
+     -m message size (Not implemented yet)
+
+Note:
+    In case the remote cores are not loaded, the test is blocked since it is waiting

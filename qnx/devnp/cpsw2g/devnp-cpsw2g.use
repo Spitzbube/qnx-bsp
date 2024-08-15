@@ -1,0 +1,60 @@
+%C mcu domain cpsw2g ethernet driver based on enet low level driver
+
+Syntax:
+  io-pkt-v6-hc -d cpsw2g [option[,option ...]] ...
+
+Options (to override autodetected defaults):
+  verbose=num             Set verbosity level (default: 0).
+  mac-to-mac=1            Set for mac-to-mac mode (default: 0)
+  speed=100|1000          Media data rate for port 0 in Mb/s. (default: 1000)
+  p0mac=XXXXXXXXXXXX      Custom MAC address to use on port 0.
+  ptp=0|1                 1 to enable PTP support (default: 0)
+  promiscuous=0|1         1 to enable promiscuous mode (default: 0)
+  typed_mem=name          Set the typed memory
+  udma_chnum=val          Set the preferred udma channel to use (default: dynamic allocation)
+  tx_freeq_threshold=val  Set the tx free Q threshold value (default: 120), must be less than no of TX descriptors.
+  tx_descriptor_cnt=val   Set the tx descriptors count value (default: 128, Max: 256)
+  rx_descriptor_cnt=val   Set the rx descriptors count value (default: 128, Max: 256)
+  run_mask_cpu=val        Set the run mask - cpu core where threads are scheduled (default:0) (0 - core0, 1 - core1, 2 - both core)
+  poll_phy_ms=val         Set the frequency in ms, to poll the phy status, and poll for management of resources (default: 2000)
+  cache_ops=val           Set the cache operation to on/off (default:0  -> cache-coherency set), 1 - Turn on cache off -> cache-coherency off)
+  smmu=0|1                1 to enable smmu support (default: 0)
+  virt_id=val             Set the virt_id to use for the dma channel when smmu is enabled
+  hw_csum=1               1 to enable hw csum (default: 0)
+  joinvlan="1;2;3..."     List of VLANs to join
+  rx_intr_prio=val        Set the rx interrupt thread priority (default: 21)
+  tx_intr_prio=val        Set the tx interrupt thread priority (default: 21)
+  cpts_intr_prio=val      Set the cpts interrupt thread priority (default: 22)
+  no_stack_thread=val     1 to disable using the stack thread needed for bridge and fastforward to work  (default: 0)
+  rx_pacing=0|1           1 to enable rx interrupt pacing (default:0, use rx interrupt)
+  rx_pacing_msec=val      Set the rx interrupt pacing internal in msec (default: 1 msec)
+
+Examples:
+  # Start io-pkt using the driver and with static IP address
+  io-pkt-v6-hc -d cpsw2g
+  ifconfig am0 192.0.2.1
+
+  # Start io-pkt using the driver and with DHCP IP address
+  io-pkt-v6-hc -d cpsw2g
+  dhclient -nw am0
+
+  # Start io-pkt using the driver for mac-to-mac mode in gitbit speed
+  io-pkt-v6-hc -d cpsw2g verbose=1,mac-to-mac=1,speed=1000
+  ifconfig am0 192.0.2.1
+
+  # Start io-pkt using the driver with custom mac address
+  io-pkt-v6-hc -d cpsw2g p0mac=001122334455
+  ifconfig am0 192.0.2.1
+
+  # Start io-pkt using the driver with typed memory "ram":
+  io-pkt-v6-hc -d cpsw2g typed_mem=ram -ptcpip pkt_typed_mem=ram
+  ifconfig am0 192.0.2.1
+
+  # Start io-pkt using the driver with typed memory "ram", preferred udma channel "24" and smmu enabled:
+  io-pkt-v6-hc -d cpsw2g ptp=1,typed_mem=ram,udma_chnum=24,smmu=1 -ptcpip pkt_typed_mem=ram
+  ifconfig am0 192.0.2.1
+
+  # Start io-pkt using the driver with hw csum enabled
+  io-pkt-v6-hc -d cpsw2g hw_csum=1
+  ifconfig am0 tcp4csum udp4csum tcp6csum udp6csum
+  ifconfig am0 192.0.2.1

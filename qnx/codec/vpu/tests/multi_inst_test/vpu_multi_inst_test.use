@@ -1,0 +1,26 @@
+%C - This is a VPU Multi-instance Decode/Encode unit-test (file-to-file mode)
+
+Syntax:
+    vpu_multi_inst_test --instance-num=<N> -e <test-1>,..,<test-N> --codec=<codec-1>,..,<codec-N> --input <in-1>,..,<in-N> --output <out-1>,..,<out-N>
+
+Options (describes primary options, run with -h for more details)
+    h              Help
+    instance-num   Total number of test instances to run
+    e              0: decode, 1: encode (per test)
+    codec          Codec format. Use 0 for AVC, and 12 for HEVC (per test)
+    enable-wtl     Enables WTL option (per test), if set to 1, for decoded outputs to be written in linear fashion for a framebuffer
+    enable-uvintlv Enables Interleaved UV (CbCr), if set to 1, for NV12 support (per test). For decode, must also have WTL option set.
+    input          Input bitstream for decode, or Input .cfg file for encode (per test)
+    output         Output decoded YUV file, or Output encoded bitstream file (per test)
+
+Examples:
+    # Basic help built into the executable
+    vpu_multi_inst_test -h
+
+    # AVC decode + HEVC encode, and write the decoded output to a single YUV file
+    vpu_multi_inst_test --instance-num=2 -e 0,1 --codec=0,12 --enable-wtl=1 --enable-uvintlv=1,1 \
+    --input /ti_fs/codec_test/bitstream/HistoryOfTI-480p.264,/ti_fs/codec_test/vpu/cfg/hevc_bg_8b_01.cfg \
+    --output /ti_fs/codec_test/vpu/output/HistoryOfTI-480p.264-720x416_nv12.yuv,/ti_fs/codec_test/vpu/output/bg_8b_01.cfg.265
+
+Notes:
+    - This test is applicable only on J721S2 SoCs

@@ -1,0 +1,26 @@
+%C - This is a VPU Encoder unit-test for file-to-file mode
+
+Syntax:
+    vpu_encoder_test <options>
+
+Options (describes primary options, run with -h for more details)
+    h               Help
+    cfgFileName     Encoder Config parameters (mandatory)
+    codec           Codec format (mandatory if using non HEVC encoded input files). Use 0 for AVC, and 12 for HEVC
+    enable-uvintlv  Enables Interleaved UV (CbCr) support, for NV12 input frames
+    input           Input YUV file to encode (optional). Overrides 'InputFile' in cfg file if defined
+    output          Output encoded file (mandatory to store encoded binary into a file)
+    coreIdx         Codec instance to use (default: 0), instance 1 is supported only on J784S4 SoCs.
+
+Examples:
+    # Basic help built into the executable
+    vpu_encoder_test -h
+
+    # AVC file-to-file encode
+    vpu_encoder_test --codec 0 --enable-uvintlv --cfgFileName /ti_fs/codec_test/vpu/cfg/avc_inter_8b_02.cfg --output /ti_fs/codec_test/vpu/output/avc_inter_8b_02.cfg.264 --coreIdx 0
+
+    # HEVC file-to-file encode
+    vpu_encoder_test --enable-uvintlv --cfgFileName /ti_fs/codec_test/vpu/cfg/hevc_bg_8b_01.cfg --output /ti_fs/codec_test/vpu/output/bg_8b_01.cfg.265 --coreIdx 0
+
+Notes:
+    - This test is applicable only on J721S2  & J784S4 SoCs

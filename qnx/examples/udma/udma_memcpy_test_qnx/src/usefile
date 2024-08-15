@@ -1,0 +1,3 @@
+UDMA memcpy test
+
+Call "udma_memcpy_testapp -h" for usage.
