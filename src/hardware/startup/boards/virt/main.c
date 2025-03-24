@@ -101,6 +101,12 @@ main(int argc, char **argv, char **envv)
 
 	init_qtime_virt();
 
+	init_cacheattr();
+
+	init_cpuinfo();
+
+	init_hwinfo();
+
     /*
      * This is handy for debugging a new version of the startup program.
      * Commenting this line out will save a great deal of code.
