@@ -5,7 +5,7 @@ include $(QCONFIG)
 
 LINKER_TYPE=BOOTSTRAP
 INSTALLDIR = boot/sys
-LIBS += startup$(subst .,-,$(PSTAG_$(PADDR_SIZE)))
+LIBS += startup$(subst .,-,$(PSTAG_$(PADDR_SIZE))) ucl
 
 # The board level is one up from the CPU level
 BOARD_ROOT=$(patsubst %/,%,$(dir $(CPU_ROOT)))
