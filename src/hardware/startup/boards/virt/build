@@ -3,5 +3,9 @@
 
 [virtual=armle,raw] .bootstrap = {
 	startup-virt -vv
+	procnto-v6 -vvvvv
 }
 
+[+script] .script = {
+	display_msg Welcome to QNX Neutrino 6.5.0 on the QEMU ARMv7 virt
+}
