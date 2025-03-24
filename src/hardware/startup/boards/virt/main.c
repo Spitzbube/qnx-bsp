@@ -108,6 +108,13 @@ main(int argc, char **argv, char **envv)
 	init_hwinfo();
 
     /*
+     * Load bootstrap executables in the image file system and Initialise
+     * various syspage pointers. This must be the _last_ initialisation done
+     * before transferring control to the next program.
+     */
+    init_system_private();
+
+    /*
      * This is handy for debugging a new version of the startup program.
      * Commenting this line out will save a great deal of code.
      */
