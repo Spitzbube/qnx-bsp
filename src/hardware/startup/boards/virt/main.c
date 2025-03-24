@@ -62,12 +62,50 @@ const struct debug_device debug_devices[] = {
 int
 main(int argc, char **argv, char **envv)
 {
+	int opt;
+
+    while ((opt = getopt(argc, argv, COMMON_OPTIONS_STRING)) != -1) {
+        switch (opt) {
+            default:
+                handle_common_option(opt);
+                break;
+        }
+    }
+
 	/*
 	 * Initialize debugging output
 	 */
 	select_debug(debug_devices, sizeof(debug_devices));
 
 	kprintf("Hello World!\n");
+
+	cpu_freq = 100000000;
+	lsp.syspage.p->num_cpu = 1;
+
+    /*
+     * Collect information on all free RAM in the system
+     */
+    init_raminfo();
+
+	/*
+	 * Remove RAM used by modules in the image
+	 */
+	alloc_ram(shdr->ram_paddr, shdr->ram_size, 1);
+
+	if (shdr->flags1 & STARTUP_HDR_FLAGS1_VIRTUAL)
+	{
+		init_mmu();
+	}
+
+	init_intrinfo();
+
+    /*
+     * This is handy for debugging a new version of the startup program.
+     * Commenting this line out will save a great deal of code.
+     */
+    print_syspage();
+
+    kprintf("Jumping to QNX\n");
 
 	return 0;
 }

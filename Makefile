@@ -50,3 +50,6 @@ images:
 prebuilt:
 	cp -rf prebuilt/* install
 
+run:
+	$(MAKE) -Cimages run
+

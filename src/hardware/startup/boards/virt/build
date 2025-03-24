@@ -2,6 +2,6 @@
 [image=0x40200000]
 
 [virtual=armle,raw] .bootstrap = {
-	startup-virt
+	startup-virt -vv
 }
 

@@ -17,3 +17,13 @@ clean:
 
 bsp-qemu-virt.bin: virt.build
 	$(HOST_MKIFS) -r../install -v $(MKIFSFLAGS) $^ $@
+
+run: bsp-qemu-virt.bin
+	qemu-system-arm \
+	-M virt \
+	-m 256 \
+	-cpu cortex-a15 \
+	-bios ./u-boot.bin \
+	-hda fat:rw:./ \
+	-vga none 
+	-serial stdio
