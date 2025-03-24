@@ -99,6 +99,8 @@ main(int argc, char **argv, char **envv)
 
 	init_intrinfo();
 
+	init_qtime_virt();
+
     /*
      * This is handy for debugging a new version of the startup program.
      * Commenting this line out will save a great deal of code.
