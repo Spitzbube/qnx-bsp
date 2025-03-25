@@ -64,5 +64,7 @@ pipe
 slogger
 waitfor
 sh
+use
 sloginfo
 ls
+shutdown
