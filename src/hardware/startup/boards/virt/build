@@ -23,7 +23,7 @@
 	## Note: clock 24MHz, baud 115200, shift 2, IRQ33
 	##       see devc
 	#######################################################################
-	devc-serdebug -e -F -S
+	devc-serdebug -e -F -S -b115200 -c133000000 0x09000000,33
 	waitfor /dev/ser1 4
 	reopen /dev/ser1  
 	display_msg Serial opened...
