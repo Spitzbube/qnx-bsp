@@ -2,10 +2,69 @@
 [image=0x40200000]
 
 [virtual=armle,raw] .bootstrap = {
-	startup-virt -vv
-	procnto-v6 -vvvvv
+	startup-virt -vvvvv
+	PATH=:/proc/boot:/sbin:/bin:/usr/sbin:/usr/bin LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll procnto-v6 -vvvvv
 }
 
 [+script] .script = {
-	display_msg Welcome to QNX Neutrino 6.5.0 on the QEMU ARMv7 virt
+	display_msg Welcome to QNX Neutrino 6.5.0 on the QEMU ARMv6 virt
+
+	PATH=:/proc/boot:/sbin:/bin:/usr/sbin:/usr/bin:/opt/bin
+	LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll:/opt/lib
+
+	procmgr_symlink ../../proc/boot/libc.so.3 /usr/lib/ldqnx.so.2
+
+	slogger
+	pipe
+
+	#######################################################################
+	## SERIAL driver
+	##
+	## Note: clock 24MHz, baud 115200, shift 2, IRQ33
+	##       see devc
+	#######################################################################
+	devc-serdebug -e -F -S
+	waitfor /dev/ser1 4
+	reopen /dev/ser1  
+	display_msg Serial opened...
+
+	#######################################################################
+	## These env variables are inherited by all the programs which follow
+	#######################################################################
+	SYSNAME=nto
+	SHELL=/bin/sh
+	TERM=qansi
+	HOME=/
+	PATH=:/proc/boot:/sbin:/bin:/usr/sbin:/usr/bin:/opt/bin
+	LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll:/opt/lib
+	# ls -l /dev
+	[+session] sh &
 }
+
+[type=link] /usr/lib/ldqnx.so.2=/proc/boot/libc.so.3
+[type=link] /bin/sh=/proc/boot/sh
+[type=link] /dev/console=/dev/ser1
+[type=link] /tmp=/dev/shmem
+
+# Shared libraries
+libc.so.3
+
+[data=copy]
+
+# Executables
+[data=c]
+
+devc-serdebug
+
+###########################################################################
+## general commands
+###########################################################################
+
+pipe
+slogger
+waitfor
+sh
+use
+sloginfo
+ls
+shutdown
