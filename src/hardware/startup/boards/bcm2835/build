@@ -1,5 +1,5 @@
 
-[image=0x40200000]
+[image=0x00200000]
 
 [virtual=armle,raw] .bootstrap = {
 	startup-bcm2835 -vvvvv
@@ -23,6 +23,7 @@
 	## Note: clock 24MHz, baud 115200, shift 2, IRQ33
 	##       see devc
 	#######################################################################
+    display_msg Starting DBGU driver...
 	devc-serdebug -e -F -S -b115200 -c133000000 0x09000000,33
 	waitfor /dev/ser1 4
 	reopen /dev/ser1  

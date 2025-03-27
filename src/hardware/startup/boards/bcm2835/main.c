@@ -23,24 +23,26 @@
 
 
 #include "startup.h"
-#include <arm/pl011.h>
+#include <arm/bcm2835.h>
 
 
-void init_pl011(unsigned, const char *, const char *);
-void put_pl011(int);
-extern struct callout_rtn	display_char_pl011;
-extern struct callout_rtn	poll_key_pl011;
-extern struct callout_rtn	break_detect_pl011;
+void init_bcm2835_debug(unsigned, const char *, const char *);
+void put_bcm2835(int);
+extern struct callout_rtn	display_char_bcm2835;
+extern struct callout_rtn	poll_key_bcm2835;
+extern struct callout_rtn	break_detect_bcm2835;
+
+extern void init_qtime_bcm2835();
 
 const struct debug_device debug_devices[] = {
-	{ 	"pl011", //base^shift.baud.clk
+	{ 	"bcm2835", //base^shift.baud.clk
 		{	"0x9000000^2.115200.24000000",	/* Use whatever boot loader baud rate */
 		},
-		init_pl011,
-		put_pl011,
-		{	&display_char_pl011,
-			&poll_key_pl011,
-			&break_detect_pl011,
+		init_bcm2835_debug,
+		put_bcm2835,
+		{	&display_char_bcm2835,
+			&poll_key_bcm2835,
+			&break_detect_bcm2835,
 		}
 	},
 };
@@ -75,12 +77,22 @@ main(int argc, char **argv, char **envv)
 	/*
 	 * Initialize debugging output
 	 */
+	// Disable pull up/down for all GPIO pins & delay for 150 cycles.
+	//out32(BCM2835_GPPUD, 0x00000000);
+	out32(BCM2835_GPIO_BASE+BCM2835_GPIO_GPPUD, 0x00000000);
+	//delay(150);
+
+	// Disable pull up/down for pin 14,15 & delay for 150 cycles.
+	//out32(BCM2835_GPPUDCLK0, (1 << 14) | (1 << 15));
+	out32(BCM2835_GPIO_BASE+BCM2835_GPIO_GPPUDCLK0, (1 << 14) | (1 << 15));
+
+	// Write 0 to GPPUDCLK0 to make it take effect.
+	//out32(BCM2835_GPPUDCLK0, 0x00000000);
+	out32(BCM2835_GPIO_BASE+BCM2835_GPIO_GPPUDCLK0, 0x00000000);
+
 	select_debug(debug_devices, sizeof(debug_devices));
 
 	kprintf("Hello World!\n");
-
-	cpu_freq = 100000000;
-	lsp.syspage.p->num_cpu = 1;
 
     /*
      * Collect information on all free RAM in the system
@@ -99,7 +111,7 @@ main(int argc, char **argv, char **envv)
 
 	init_intrinfo();
 
-	init_qtime_virt();
+	init_qtime_bcm2835();
 
 	init_cacheattr();
 
