@@ -10,20 +10,11 @@ SUFFIXES := .build .ifs .raw
 
 .PHONY: all clean
 
-all: bsp-qemu-virt.bin 
+all: ifs-bcm2835.bin 
 
 clean: 
-	$(RM_HOST) bsp-qemu-virt.bin 
+	$(RM_HOST) ifs-bcm2835.bin 
 
-bsp-qemu-virt.bin: virt.build
+ifs-bcm2835.bin: bcm2835.build
 	$(HOST_MKIFS) -r../install -v $(MKIFSFLAGS) $^ $@
 
-run: bsp-qemu-virt.bin
-	qemu-system-arm \
-	-M virt \
-	-m 256 \
-	-cpu cortex-a15 \
-	-bios ./u-boot.bin \
-	-hda fat:rw:./ \
-	-vga none 
-	-serial stdio

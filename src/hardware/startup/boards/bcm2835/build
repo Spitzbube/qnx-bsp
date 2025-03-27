@@ -2,12 +2,12 @@
 [image=0x40200000]
 
 [virtual=armle,raw] .bootstrap = {
-	startup-virt -vvvvv
+	startup-bcm2835 -vvvvv
 	PATH=:/proc/boot:/sbin:/bin:/usr/sbin:/usr/bin LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll procnto-v6 -vvvvv
 }
 
 [+script] .script = {
-	display_msg Welcome to QNX Neutrino 6.5.0 on the QEMU ARMv6 virt
+	display_msg Welcome to QNX Neutrino 6.5.0 on the Raspberry pi
 
 	PATH=:/proc/boot:/sbin:/bin:/usr/sbin:/usr/bin:/opt/bin
 	LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll:/opt/lib
