@@ -10,11 +10,11 @@ SUFFIXES := .build .ifs .raw
 
 .PHONY: all clean
 
-all: ifs-bcm2835.bin 
+all: ifs-mb86h60.bin 
 
 clean: 
-	$(RM_HOST) ifs-bcm2835.bin 
+	$(RM_HOST) ifs-mb86h60.bin 
 
-ifs-bcm2835.bin: bcm2835.build
+ifs-mb86h60.bin: mb86h60.build
 	$(HOST_MKIFS) -r../install -v $(MKIFSFLAGS) $^ $@
 

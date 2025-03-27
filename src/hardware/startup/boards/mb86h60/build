@@ -2,7 +2,7 @@
 [image=0x00200000]
 
 [virtual=armle,raw] .bootstrap = {
-	startup-bcm2835 -vvvvv
+	startup-mb86h60 -vvvvv
 	PATH=:/proc/boot:/sbin:/bin:/usr/sbin:/usr/bin LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll procnto-v6 -vvvvv
 }
 
