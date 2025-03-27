@@ -24,40 +24,57 @@
  */
 
 #include "startup.h"
-#include <arm/bcm2835.h>
-
-extern struct callout_rtn	interrupt_id_bcm2835_aic;
-extern struct callout_rtn	interrupt_eoi_bcm2835_aic;
-extern struct callout_rtn	interrupt_mask_bcm2835_aic;
-extern struct callout_rtn	interrupt_unmask_bcm2835_aic;
+#include "arm/mb86h60.h"
 
 
-static paddr_t aic_base = ARM_IRQCTLR_BASEOFF;
+static paddr_t	mb86h60_irq_ctrl_arm_base  = MB86H60_IRQ_CTRL_ARM_BASE;
+static paddr_t	mb86h60_vic_base  = MB86H60_VIC_BASE;
+
+extern struct callout_rtn interrupt_id_mb86h60;
+extern struct callout_rtn interrupt_eoi_mb86h60;
+extern struct callout_rtn interrupt_mask_mb86h60;
+extern struct callout_rtn interrupt_unmask_mb86h60;
+
+
 const static struct startup_intrinfo	intrs[] = {
-    {	_NTO_INTR_CLASS_EXTERNAL, 	// vector base
-        64,							// number of vectors
-        _NTO_INTR_SPARE,			// cascade vector
-        0,							// CPU vector base
-        0,							// CPU vector stride
-        0,							// flags
+	{	_NTO_INTR_CLASS_EXTERNAL, 	// vector base
+		32,							// number of vectors
+		_NTO_INTR_SPARE,			// cascade vector
+		0,							// CPU vector base
+		0,							// CPU vector stride
+		0,							// flags
 
-        { INTR_GENFLAG_LOAD_SYSPAGE,	0, &interrupt_id_bcm2835_aic },
-        { INTR_GENFLAG_LOAD_SYSPAGE | INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_bcm2835_aic },
-        &interrupt_mask_bcm2835_aic,	// mask   callout
-        &interrupt_unmask_bcm2835_aic,	// unmask callout
-        0,							// config callout
-        &aic_base,
-    },
+		{ INTR_GENFLAG_LOAD_SYSPAGE,	0, &interrupt_id_mb86h60 },
+		{ INTR_GENFLAG_LOAD_SYSPAGE | INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_mb86h60 },
+		&interrupt_mask_mb86h60,	// mask   callout
+		&interrupt_unmask_mb86h60,	// unmask callout
+		0,							// config callout
+		&mb86h60_vic_base,
+	},
 };
 
 
-
-void init_intrinfo()
+void init_intrinfo(void)
 {
+	int i;
 
-    out32(aic_base + IRQC_DISABIRQ1_OFF,0xffffffff );
-    out32(aic_base + IRQC_DISABIRQ2_OFF,0xffffffff );
-    out32(aic_base + IRQC_DISABBASIC_OFF,0xffff );
+    kprintf("init_intrinfo: TODO\n");
+
+    out32(mb86h60_irq_ctrl_arm_base + MB86H60_IRQ_CTRL_IRQMASK, 
+		(1 << MB86H60_INTR_TIMER0)|
+		(1 << MB86H60_INTR_UART0)|
+		(1 << MB86H60_INTR_DMA)|
+		(1 << MB86H60_INTR_USB) 
+		);
+    out32(mb86h60_irq_ctrl_arm_base + MB86H60_IRQ_CTRL_IRQXOR, 0);
+
+	for (i = 0; i < 32; i++)
+	{
+		out32(mb86h60_vic_base + MB86H60_VIC_VECTPRIORITYX + i*4, 5);
+	}
+
+	out32(mb86h60_vic_base + MB86H60_VIC_INTENABLE, 0);
+	out32(mb86h60_vic_base + MB86H60_VIC_INTSELECT, 0);
 
     add_interrupt_array(intrs, sizeof(intrs));
 }

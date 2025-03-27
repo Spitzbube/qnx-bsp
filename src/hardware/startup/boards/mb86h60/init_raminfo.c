@@ -28,10 +28,7 @@
 
 void init_raminfo()
 {
-	/* 
-	 * Add  RAM - 256M   making it to work on Model A also
-	 */
-	add_ram(0x00200000, MEG(256));
+	add_ram(0x20000000, MEG(64));
 }
 
 __SRCVERSION( "$URL$ $Rev$" );

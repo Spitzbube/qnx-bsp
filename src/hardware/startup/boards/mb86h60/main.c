@@ -23,26 +23,24 @@
 
 
 #include "startup.h"
-#include <arm/bcm2835.h>
 
+void init_mb86h60_debug(unsigned, const char *, const char *);
+void put_mb86h60(int);
+extern struct callout_rtn	display_char_mb86h60;
 
-void init_bcm2835_debug(unsigned, const char *, const char *);
-void put_bcm2835(int);
-extern struct callout_rtn	display_char_bcm2835;
-extern struct callout_rtn	poll_key_bcm2835;
-extern struct callout_rtn	break_detect_bcm2835;
-
-extern void init_qtime_bcm2835();
+extern void init_qtime_mb86h60();
 
 const struct debug_device debug_devices[] = {
-	{ 	"bcm2835", //base^shift.baud.clk
-		{	"0x9000000^2.115200.24000000",	/* Use whatever boot loader baud rate */
+	{ 	"mb86h60", //base^shift.baud.clk
+		{	"0xFFFFEE00^0.0.133000000.16",	/* Use whatever boot loader baud rate */
 		},
-		init_bcm2835_debug,
-		put_bcm2835,
-		{	&display_char_bcm2835,
-			&poll_key_bcm2835,
-			&break_detect_bcm2835,
+		init_mb86h60_debug,
+		put_mb86h60,
+		{	&display_char_mb86h60,
+#if 0 //TODO
+			&poll_key_mb86h60,
+			&break_detect_mb86h60,
+#endif
 		}
 	},
 };
@@ -66,6 +64,10 @@ main(int argc, char **argv, char **envv)
 {
 	int opt;
 
+	mb86h60_board_init();
+
+	console_send_string("Hello QNX!\n");
+
     while ((opt = getopt(argc, argv, COMMON_OPTIONS_STRING)) != -1) {
         switch (opt) {
             default:
@@ -77,19 +79,6 @@ main(int argc, char **argv, char **envv)
 	/*
 	 * Initialize debugging output
 	 */
-	// Disable pull up/down for all GPIO pins & delay for 150 cycles.
-	//out32(BCM2835_GPPUD, 0x00000000);
-	out32(BCM2835_GPIO_BASE+BCM2835_GPIO_GPPUD, 0x00000000);
-	//delay(150);
-
-	// Disable pull up/down for pin 14,15 & delay for 150 cycles.
-	//out32(BCM2835_GPPUDCLK0, (1 << 14) | (1 << 15));
-	out32(BCM2835_GPIO_BASE+BCM2835_GPIO_GPPUDCLK0, (1 << 14) | (1 << 15));
-
-	// Write 0 to GPPUDCLK0 to make it take effect.
-	//out32(BCM2835_GPPUDCLK0, 0x00000000);
-	out32(BCM2835_GPIO_BASE+BCM2835_GPIO_GPPUDCLK0, 0x00000000);
-
 	select_debug(debug_devices, sizeof(debug_devices));
 
 	kprintf("Hello World!\n");
@@ -111,7 +100,7 @@ main(int argc, char **argv, char **envv)
 
 	init_intrinfo();
 
-	init_qtime_bcm2835();
+	init_qtime_mb86h60();
 
 	init_cacheattr();
 
