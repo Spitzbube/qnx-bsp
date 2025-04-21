@@ -179,7 +179,7 @@ int main(int argc, char **argv)
     LOG(LOG_DEBUG2,"Input file path %s", inputpath);
 
     if (procmgr_ability(0,
-                        PROCMGR_AOP_ALLOW | PROCMGR_ADN_NONROOT | PROCMGR_AID_KEYDATA,
+                        PROCMGR_AOP_ALLOW | PROCMGR_ADN_NONROOT,
                         PROCMGR_AOP_ALLOW | PROCMGR_ADN_NONROOT | PROCMGR_AID_IO,
                         PROCMGR_AOP_ALLOW | PROCMGR_ADN_NONROOT | PROCMGR_AID_MEM_PHYS,
                         PROCMGR_AOP_ALLOW | PROCMGR_ADN_NONROOT | PROCMGR_AID_PRIORITY,
