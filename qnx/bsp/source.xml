@@ -1,0 +1,19 @@
+<!-- Unless otherwise specified, values/attributes are free-form strings -->
+    <!-- type is currently either BSP or SourceOnly -->
+<sourcePackage type="BSP" id="hw.ti-j722s-evm">
+    <title>Texas Instruments J722S Evaluation Module</title>
+    <release>BSP_ti-j722s-evm_br-hw-rel_be-800-BN64</release>
+    <license>QDL and Apache II</license>
+    <startup>startup-j722s-evm</startup>
+    <requires>package: com.qnx.${baselineId}.target.fs.flash3 (>= 0.0.2)</requires>
+    <requires>package: com.qnx.${baselineId}.target.drivers.flash (>= 0.0.2)</requires>
+    <description> This board support package (BSP) is for the TI J722S EVM. This BSP contains prebuilt binaries and buildfiles to boot your board with the QNX RTOS. In addition, this BSP provides source code for various drivers that you can build. For documentation to use this BSP, download the user's guide.</description>
+    <vendor>BlackBerry Limited</vendor>
+    <qnxTargetVersion>SDP8.0</qnxTargetVersion>
+    <qnxTargetCPU variant="aarch64le">AARCH64</qnxTargetCPU>
+    <property key="f.swtype" value="I"/>
+    <!-- type is currently only import, will be extended in the future. -->
+    <bsp type="import">
+        <import>images/j722s-evm.build</import>
+    </bsp>
+</sourcePackage>

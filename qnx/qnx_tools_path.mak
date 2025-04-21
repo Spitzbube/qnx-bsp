@@ -33,7 +33,8 @@ export SDK_BUILDER_PATH ?= $(PSDK_RTOS_PATH)/sdk_builder
 ifneq ($(SOC),j722s)
 endif
 ifeq ($(SOC),j722s)
-export MCU_PLUS_PATH ?= $(PSDK_RTOS_PATH)/mcu_plus_sdk
+export MCU_PLUS_PATH ?= $(PSDK_RTOS_PATH)/mcu_plus_sdk_j722s_10_00_00_25
+OLD_MCU_PLUS_PATH=mcu_plus_sdk
 endif
 export GCC_ARCH64_LINUX_VERSION ?= 13.2.Rel1
 export GCC_LINUX_ARM_ROOT ?= $(PSDK_TOOLS_PATH)/arm-gnu-toolchain-${GCC_ARCH64_LINUX_VERSION}-x86_64-aarch64-none-linux-gnu

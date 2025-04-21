@@ -1,0 +1,9 @@
+%C - Serial driver for TI OMAP
+
+%C [options] [port[,irq]] &
+%C specific options:
+ -a           Use auto-rts when hardware flow control is enabled(default disabled)
+ -l (0|1)     Enable Loopback mode (1=on, 0=off, default 0)
+ -M           Disable MSR interrupt(default enabled)
+ -t number    Set receive FIFO trigger level (default 16)
+ -T number    Set transmit FIFO trigger level (default 8)

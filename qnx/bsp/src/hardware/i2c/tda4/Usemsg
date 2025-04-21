@@ -1,0 +1,18 @@
+TDA4 I2C manager
+
+%C [options]
+
+Options:
+-a addr     Own address (default: 1)
+-c clock    peripheral clock (default 96MHz)
+-d          don't pre-fill transmit FIFO, fill FIFO after transfer is started
+-f          don't treat ROVR and XUDF as errors
+-h value    optional value to add to SCCH to adjust high clock period (value is in NS) (default=0)
+-i irq      I2C interrupt (default: 232)
+-l value    optional value to add to SCCL to adjust low clock period (value is in NS) (default=0)
+-p addr     I2C base address (default: 0x02000000)
+-v          Increase verbosity(default: 2)
+
+Generic options:
+--b bus_speed   Default bus speed. (Default: 100000)
+--u unit        Unit number. Number to append to device name prefix (/dev/i2c). (Default: 0)

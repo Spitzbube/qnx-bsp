@@ -33,7 +33,7 @@ fi
 
 # Paths to different locations with PSDK QNX installation's "psdkqa" directory
 PSDK_QNX_ROOT=${PWD}
-QNX_BASE=/home/$USER/qnx${QNX_SDP_VERSION}
+QNX_BASE=/home/$USER/qnx/qnx${QNX_SDP_VERSION}
 PLATFORM=j722s
 
 # The QNX installation directory may differ, but the

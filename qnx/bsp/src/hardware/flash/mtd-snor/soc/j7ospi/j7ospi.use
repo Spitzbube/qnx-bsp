@@ -1,0 +1,19 @@
+
+
+Notes for J7OSPI soc-specific(soc) options:
+soc options: all options are separated by colons.
+
+'rclk'                     : reference clock rate (default: 166666666).
+'clk'                      : SPI bus clock (default: 5000000).
+'base'                     : OSPI controller base address (default: 0x47040000).
+'data'                     : OSPI data port address(default: 0x400000000).
+'phy'=[0|1]                : enable PHY mode (default: 0).
+'poffset'                  : PHY tuning pattern offset(default: 0x3FE0000).
+'rdelay'                   : read delays in cycle (default: 0).
+'dma'=[0|1]                : enable DMA mode(default: 0)
+'ch'                       : channel number.
+'mem'                      : typed memory string.
+
+Examples of soc options:
+For J721E EVM board:
+%C -I -s verbose=1,soc=phy=1:dma=1
