@@ -92,8 +92,6 @@ main(int argc, char **argv, char **envv)
 
 	select_debug(debug_devices, sizeof(debug_devices));
 
-	kprintf("Hello World!\n");
-
     /*
      * Collect information on all free RAM in the system
      */

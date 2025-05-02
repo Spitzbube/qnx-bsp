@@ -24,7 +24,7 @@
 	##       see devc
 	#######################################################################
     display_msg Starting DBGU driver...
-	devc-serdebug -e -F -S -b115200 -c133000000 0x09000000,33
+	devc-serdebug -e -F -S -b115200 -c133000000 0x20201000,57
 	waitfor /dev/ser1 4
 	reopen /dev/ser1  
 	display_msg Serial opened...
