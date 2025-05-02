@@ -38,6 +38,26 @@
 	HOME=/
 	PATH=:/proc/boot:/sbin:/bin:/usr/sbin:/usr/bin:/opt/bin
 	LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll:/opt/lib
+
+
+    #######################################################################
+	## GRAPHICS driver
+	## if you want to run gf_splash,egl-gears-lite ,QT
+	## dont start photon , io-graphics , phfont
+	#######################################################################
+
+#	 display_msg Starting photon...       
+#	 Photon &
+ #    waitfor /dev/photon 2
+     
+     display_msg Starting graphics driver
+	 io-display  -dvid=0,did=0
+	 waitfor /dev/io-display 2
+	  
+#	display_msg Starting io-graphics...    
+#	io-graphics 
+
+
 	# ls -l /dev
 	[+session] sh &
 }
@@ -48,7 +68,21 @@
 [type=link] /tmp=/dev/shmem
 
 # Shared libraries
-libc.so.3
+libc.so
+libm.so
+
+###########################################################################
+## uncomment for graphics driver
+###########################################################################
+devg-bcm2835.so
+#libGLES_CL.so
+#libGLES_CM.so
+libffb.so
+#libgf.so
+#devg-soft3d-fixed.so
+#libFF-T2K.so.2
+#libm.so.2
+#devg-soft3d.so
 
 [data=copy]
 
@@ -56,6 +90,27 @@ libc.so.3
 [data=c]
 
 devc-serdebug
+
+###########################################################################
+## Graphics driver
+###########################################################################
+# Include Photon Binaries
+#Photon
+#/usr/photon/config/bcm2835.conf=bcm2835.conf
+#/etc/system/config/img.conf=${QNX_TARGET}/etc/system/config/img.conf
+/etc/system/config/display.conf=display.conf
+io-display
+#io-graphics
+
+###########################################################################
+## io-graphics libs 
+###########################################################################
+#libphrender.so
+#libffb.so
+#libdisputil.so
+#libimg.so.1
+#shelf depend
+#libecpp-ne.so.4
 
 ###########################################################################
 ## general commands
@@ -69,3 +124,6 @@ use
 sloginfo
 ls
 shutdown
+pidin
+ldd
+
