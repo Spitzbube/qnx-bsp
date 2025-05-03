@@ -2,7 +2,7 @@
 [image=0x00200000]
 
 [virtual=armle,raw] .bootstrap = {
-	startup-bcm2835 -vvvvv
+	startup-bcm2835 -r 0x002dd0000,0x200000,1 -vvvvv
 	PATH=:/proc/boot:/sbin:/bin:/usr/sbin:/usr/bin LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll procnto-v6 -vvvvv
 }
 
@@ -57,6 +57,13 @@
 #	display_msg Starting io-graphics...    
 #	io-graphics 
 
+	#######################################################################
+	## Graphics Application
+	####################################################################### 
+	#display_msg  starting gf_splash...
+    gf_splash /usr/share/backdrops/1024x768/neutrino_02_1024x768.jpg
+    #gf_splash /usr/share/backdrops/1024x768/default.jpg
+	#egl-gears-lite -layer=2 -width=300 -height=300 &
 
 	# ls -l /dev
 	[+session] sh &
@@ -78,7 +85,7 @@ devg-bcm2835.so
 #libGLES_CL.so
 #libGLES_CM.so
 libffb.so
-#libgf.so
+libgf.so
 #devg-soft3d-fixed.so
 #libFF-T2K.so.2
 #libm.so.2
@@ -96,21 +103,49 @@ devc-serdebug
 ###########################################################################
 # Include Photon Binaries
 #Photon
-#/usr/photon/config/bcm2835.conf=bcm2835.conf
-#/etc/system/config/img.conf=${QNX_TARGET}/etc/system/config/img.conf
+/usr/photon/config/bcm2835.conf=bcm2835.conf
+/etc/system/config/img.conf=${QNX_TARGET}/etc/system/config/img.conf
 /etc/system/config/display.conf=display.conf
 io-display
-#io-graphics
+io-graphics
+
+###########################################################################
+## NETWORK driver
+###########################################################################
+libsocket.so
+
+###########################################################################
+## Image Loading
+###########################################################################
+libimg.so
+# img_codec_bmp.so
+# img_codec_gif.so
+img_codec_jpg.so
+# img_codec_png.so
+# img_codec_sgi.so
+# img_codec_tga.so
+
+###########################################################################
+## Font loading
+###########################################################################
+libFF-T2K.so
 
 ###########################################################################
 ## io-graphics libs 
 ###########################################################################
 #libphrender.so
 #libffb.so
-#libdisputil.so
+libdisputil.so
 #libimg.so.1
 #shelf depend
 #libecpp-ne.so.4
+
+##########################################################################
+## Splash screen binary and support files (fonts & images)
+###########################################################################
+/usr/bin/gf_splash=gf_splash
+/usr/photon/font_repository/tt0419m_.ttf=${QNX_TARGET}/usr/photon/font_repository/tt0419m_.ttf
+[search=../install/usr/share/backdrops]/usr/share/backdrops/1024x768/neutrino_02_1024x768.jpg=1024x768/neutrino_02_1024x768.jpg
 
 ###########################################################################
 ## general commands
