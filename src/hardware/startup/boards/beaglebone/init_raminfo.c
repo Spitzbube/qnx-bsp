@@ -1,6 +1,6 @@
 /*
  * $QNXLicenseC:
- * Copyright 2009, QNX Software Systems.
+ * Copyright 2010, QNX Software Systems.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"). You
  * may not reproduce, modify or distribute this software except in
@@ -20,16 +20,18 @@
  */
 
 
-
 /*
- * TI OMAP3530 physical address space information
+ * init_raminfo.c
+ * Tell syspage about our RAM configuration
  */
-
 #include "startup.h"
 
-void
-init_asinfo(unsigned mem)
+void init_raminfo()
 {
+	// EMIF0 SDRAM 0x8000_0000 0xBFFF_FFFF 1GB DDR (1 GB Space)
+	// BeagleBone AM335X 15mmx15mm: DDR2  SDRAM 256MB
+
+	add_ram(0x80000000, MEG(256));
 }
 
-__SRCVERSION( "$URL: http://svn/product/tags/public/bsp/nto650/ti-omap3530-beagle/latest/src/hardware/startup/boards/omap3530/init_asinfo.c $ $Rev: 604842 $" );
+__SRCVERSION( "$URL$ $Rev$" );

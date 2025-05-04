@@ -20,18 +20,16 @@
  */
 
 
+
 /*
- * init_raminfo.c
- * Tell syspage about our RAM configuration
+ * TI AM335x physical address space information
  */
+
 #include "startup.h"
 
-void init_raminfo()
+void
+init_asinfo(unsigned mem)
 {
-	/* 
-	 * Add  RAM - 256M   making it to work on Model A also
-	 */
-	add_ram(0x00200000, MEG(256));
 }
 
 __SRCVERSION( "$URL$ $Rev$" );

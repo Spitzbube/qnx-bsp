@@ -1,2 +1,2 @@
-bcm2835.build
-ifs-bcm2835.bin
+beaglebone.build
+ifs-ti-beaglebone.bin

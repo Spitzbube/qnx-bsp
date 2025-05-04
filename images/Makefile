@@ -10,11 +10,10 @@ SUFFIXES := .build .ifs .raw
 
 .PHONY: all clean
 
-all: ifs-bcm2835.bin 
+all: ifs-ti-beaglebone.bin 
 
 clean: 
-	$(RM_HOST) ifs-bcm2835.bin 
+	$(RM_HOST) ifs-ti-beaglebone.bin 
 
-ifs-bcm2835.bin: bcm2835.build
+ifs-ti-beaglebone.bin: beaglebone.build
 	$(HOST_MKIFS) -r../install -v $(MKIFSFLAGS) $^ $@
-

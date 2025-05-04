@@ -3,6 +3,9 @@ QCONFIG=qconfig.mk
 endif
 include $(QCONFIG)
 
+PSTAG_64 = .64
+LIB_VARIANT = $(subst .o,,a.$(COMPOUND_VARIANT))$(PSTAG_$(PADDR_SIZE))
+
 LINKER_TYPE=BOOTSTRAP
 INSTALLDIR = boot/sys
 LIBS += startup$(subst .,-,$(PSTAG_$(PADDR_SIZE))) ucl
@@ -16,7 +19,7 @@ EXTRA_SILENT_VARIANTS+=$(subst -, ,$(BOARD) $(SECTION))
 USEFILE = 
 
 EXTRA_INCVPATH +=	\
-					\
+					$(LIBSTARTUP_ROOT)/$(CPU)/$(LIB_VARIANT) \
 					$(LIBSTARTUP_ROOT)/$(CPU) \
 					$(LIBSTARTUP_ROOT) \
 					
