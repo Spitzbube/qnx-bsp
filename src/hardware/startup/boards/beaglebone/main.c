@@ -639,9 +639,7 @@ main(int argc, char **argv, char **envv)
 	paddr_t			linkmem_addr = 0;
 	size_t			linkmem_size = 0;
 	int				link_present = 0;
-#if 0
     BEAGLEBONE_ID	boneid;
-#endif
 
     add_callout_array(callouts, sizeof(callouts));
 
@@ -686,10 +684,8 @@ main(int argc, char **argv, char **envv)
 
     display_PLLs();
 
-#if 0
     // Detect beaglebone and capes
     get_boardid_i2c(&boneid);
-#endif
 
     // This BSP assumes no capes. If there are any capes, select a profile
     // for init_pinmux_capes and implement the profile for your cape. Some
@@ -711,7 +707,6 @@ main(int argc, char **argv, char **envv)
 
 	init_edma();
 
-#if 0
     /*
      * Set CPU frequency
      */
@@ -720,7 +715,6 @@ main(int argc, char **argv, char **envv)
 	{
 		cpu_freq = detect_frequency_using_power();
 	}
-#endif
 
     /* 
      * Remove RAM used by modules in the image
