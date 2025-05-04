@@ -81,7 +81,6 @@
 	devc-seromap -e -F -b115200 -c48000000/16 0x44E09000^2,72
 	waitfor /dev/ser1 4
 	reopen /dev/ser1
-	display_msg Serial opened...
 
 	#######################################################################
 	## MMC/SD driver
@@ -97,14 +96,14 @@
 	#######################################################################
 	display_msg starting I2C driver...
 	# Uncomment for /dev/i2c0
-#	i2c-omap35xx-j5 -i 70 -p0x44E0B000 --u0
-#	waitfor /dev/i2c0
+	i2c-omap35xx-j5 -i 70 -p0x44E0B000 --u0
+	waitfor /dev/i2c0
 	# Uncomment for /dev/i2c1
-#	i2c-omap35xx-j5 -i 71 -p0x4802A000 --u1
-#	waitfor /dev/i2c1
+	i2c-omap35xx-j5 -i 71 -p0x4802A000 --u1
+	waitfor /dev/i2c1
 	# Uncomment for /dev/i2c2
-#	i2c-omap35xx-j5 -i 30 -p0x4819C000 --u2
-#	waitfor /dev/i2c2
+	i2c-omap35xx-j5 -i 30 -p0x4819C000 --u2
+	waitfor /dev/i2c2
 
 	#######################################################################
 	## Watchdog timer

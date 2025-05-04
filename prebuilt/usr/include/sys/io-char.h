@@ -37,7 +37,6 @@ struct ttydev_entry;
 #include <sys/ioctl.h>
 #include <sys/pm.h>
 #include <ps/ps.h>
-#include <pthread.h>
 
 #ifndef __PLATFORM_H_INCLUDED
 #include <sys/platform.h>
@@ -93,8 +92,6 @@ __BEGIN_DECLS
 #define  LOG_LAST_OPAGED     0x0000002    /* Last logged state for output flow control (set/cleared) */
 #define  LOG_BREAK           0x0000010
 #define  LOG_INTR            0x0000020
-#define  LOG_TX_DATA         0x0000040    /* Log TX data to file */
-#define  LOG_RX_DATA         0x0000080	  /* Log RX data to file */
 
 /* Event Masks */
 #define  IS_ERROR_EVENT      0x000000f
@@ -109,8 +106,6 @@ __BEGIN_DECLS
 #define  EVENT_OPEN        0x0000040    /* Open event to service clients on the waiting_open list */
 #define  EVENT_TIMER_QUEUE 0x0000080	/* Queue a timer */
 #define  EVENT_CUSTOM      0x0000100	/* Custom driver event callout */
-#define  EVENT_FLUSH_TX_LOG 0x0000200    /* Write logged TX data to file */
-#define  EVENT_FLUSH_RX_LOG 0x0000400    /* Write logged RX data to file */
 
 /* Verbosity Levels  */
 #define  EVENT 3
@@ -228,10 +223,8 @@ typedef struct ttyinit_entry {
 	char			name[TTY_NAME_MAX];
 	char			*pmm_parent; 	/* power manager namespace */
 	unsigned		pmflags;		/* common power management flags */	
-	int      		verbose; /* Driver verbosity */
-	int      		highwater;	/* ibuf highwater mark for flow control */
-	char    		logging_path[_POSIX_PATH_MAX];
-	unsigned		lflags;  		/* Logging flags */
+   int         verbose; /* Driver verbosity */
+   int		   highwater;	/* ibuf highwater mark for flow control */
 } TTYINIT;
 
 typedef struct pm_dev {
@@ -266,7 +259,6 @@ typedef struct chario_entry {
 	PM_DEV  		*pm_dev_list;
 	unsigned		flags;
 	unsigned		perm;
-	pthread_mutex_t timer_mutex;
 } TTYCTRL;
 
 typedef struct ttywait_entry {
@@ -378,9 +370,7 @@ typedef struct ttydev_entry {
 	int			 			baud;
 	struct winsize			winsize;
 	TTYBUF	 				obuf;
-	TTYBUF	 				obuf_log;
 	TTYBUF	 				ibuf;
-	TTYBUF	 				ibuf_log;
 	TTYBUF	 				cbuf;
 	iofunc_notify_t		 	notify[3];
 	struct ttydev_entry		*extra;
@@ -390,9 +380,6 @@ typedef struct ttydev_entry {
 	int						(*io_devctlext)(resmgr_context_t *ctp, io_devctl_t *msg, iofunc_ocb_t *ocb);
 	int						(*custom_event_handler) (struct ttydev_entry *tty);
 	char			 		name[TTY_NAME_MAX];
-	char                    *logging_path;
-	int                     tx_log_fd;
-	int                     rx_log_fd;
 	/* supress flooding slog with errors */
 	volatile unsigned 		shush; 
 	} TTYDEV;
@@ -411,7 +398,6 @@ extern void iochar_send_event(TTYDEV *dev);
 extern TTYWAIT *wait_add(TTYWAIT **queue, resmgr_context_t *ctp, int offset);
 extern int wait_remove_rcvid(TTYWAIT **head, int rcvid, int *offset);
 extern unsigned char tto_getchar( TTYDEV *dev);
-extern int tto_write_block(TTYDEV *dev, char *buf, int buf_size, int *byte_cnt);
 extern int tto_checkclients(TTYDEV *dev);
 extern void timer_queue(TTYDEV *dev);
 extern void timer_remove(TTYDEV *dev);
@@ -425,4 +411,4 @@ __END_DECLS
 
 
 
-__SRCVERSION( "$URL: http://svn/product/tags/internal/bsp/nto650/ATMEL-AT91SAM9G45-EKES-650/1.0.0/latest/lib/io-char/public/sys/io-char.h $ $Rev: 642129 $" )
+__SRCVERSION( "$URL: http://svn/product/tags/internal/bsp/nto650/ti-j5-evm/1.0.0/latest/lib/io-char/public/sys/io-char.h $ $Rev: 545080 $" )
