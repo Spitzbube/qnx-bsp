@@ -1,6 +1,6 @@
 /*
  * $QNXLicenseC:
- * Copyright 2010, QNX Software Systems.
+ * Copyright 2013, QNX Software Systems.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"). You
  * may not reproduce, modify or distribute this software except in
@@ -20,16 +20,19 @@
  */
 
 
-
-/*
- * TI AM335x physical address space information
- */
-
 #include "startup.h"
 
-void
-init_asinfo(unsigned mem)
+//
+// Get the current time from the RTC chip. 
+//
+unsigned long rtc_time(void)
 {
+    return  rtc_time_dm816x(0x44e3e000,0,0,-1);
 }
 
-__SRCVERSION( "$URL$ $Rev$" );
+
+
+#if defined(__QNXNTO__) && defined(__USESRCVERSION)
+#include <sys/srcversion.h>
+__SRCVERSION("$URL: http://svn.ott.qnx.com/product/branches/7.0.0/trunk/hardware/startup/boards/ti-am335x/beaglebone/rtc_time.c $ $Rev: 725379 $")
+#endif

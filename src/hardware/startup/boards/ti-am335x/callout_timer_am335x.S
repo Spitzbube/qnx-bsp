@@ -51,8 +51,8 @@ patch_timer_am335x:
      * Map registers
      */
     mov     r0, #AM335X_TIMER_SIZE      // size of registers
-    ldr     r1, Lpaddr
-    bl      callout_io_map
+    adr     r1, Lpaddr
+    bl      callout_io_map_indirect
     str     r0, Lvaddr
 
 1:
@@ -63,8 +63,9 @@ patch_timer_am335x:
 
     ldmia   sp!, {r4, pc}
 
-Lpaddr: .word   AM335X_TIMER2_BASE
-Lvaddr: .word   -1
+		.align	3
+Lpaddr:	.quad	AM335X_TIMER2_BASE
+Lvaddr:	.word	-1
 
 
 /*
@@ -89,9 +90,9 @@ CALLOUT_START(timer_load_am335x, 0, patch_timer_am335x)
     /*
      *  Stop the timer
      */
-    ldr     r0, [ip, #DM816X_TIMER_TCLR]
-    bic     r0, r0, #DM816X_TIMER_TCLR_ST
-    str     r0, [ip, #DM816X_TIMER_TCLR]
+    ldr     r0, [ip, #AM335X_TIMER_TCLR]
+    bic     r0, r0, #AM335X_TIMER_TCLR_ST
+    str     r0, [ip, #AM335X_TIMER_TCLR]
 
     /*
      * Get the load value 
@@ -107,21 +108,21 @@ CALLOUT_START(timer_load_am335x, 0, patch_timer_am335x)
     /*
      * Load counter value
      */
-    str     r0, [ip, #DM816X_TIMER_TCRR]
-    str     r0, [ip, #DM816X_TIMER_TLDR]
+    str     r0, [ip, #AM335X_TIMER_TCRR]
+    str     r0, [ip, #AM335X_TIMER_TLDR]
 
     /*
      * Enable overflow interrupt
      */
-    mov     r0, #DM816X_TIMER_OVF_EN_FLAG
-    str     r0, [ip, #DM816X_TIMER_IRQENABLE_SET]
+    mov     r0, #AM335X_TIMER_OVF_EN_FLAG
+    str     r0, [ip, #AM335X_TIMER_IRQENABLE_SET]
 
     /*
      *  Start the timer
      */
-    ldr     r0, [ip, #DM816X_TIMER_TCLR]
-    orr     r0, r0, #DM816X_TIMER_TCLR_ST
-    str     r0, [ip, #DM816X_TIMER_TCLR]
+    ldr     r0, [ip, #AM335X_TIMER_TCLR]
+    orr     r0, r0, #AM335X_TIMER_TCLR_ST
+    str     r0, [ip, #AM335X_TIMER_TCLR]
 
     mov     pc, lr
 CALLOUT_END(timer_load_am335x)
@@ -151,7 +152,7 @@ CALLOUT_START(timer_value_am335x, 0, patch_timer_am335x)
     /*
      * Latch the current timer value and return qtp->timer_load - value
      */
-    ldr     r0, [ip, #DM816X_TIMER_TCRR]
+    ldr     r0, [ip, #AM335X_TIMER_TCRR]
     ldr     r1, [r1, #QT_TIMER_LOAD]
     add     r0, r1, r0
 
@@ -180,8 +181,16 @@ CALLOUT_START(timer_reload_am335x, 0, patch_timer_am335x)
     /*
      * Clear overflow interrupt status
      */
-    mov     r0, #DM816X_TIMER_OVF_EN_FLAG
-    str     r0, [ip, #DM816X_TIMER_IRQSTATUS]
+    mov     r0, #AM335X_TIMER_OVF_EN_FLAG
+    str     r0, [ip, #AM335X_TIMER_IRQSTATUS]
 
     mov     pc, lr
 CALLOUT_END(timer_reload_am335x)
+
+#ifdef __QNXNTO__
+#ifdef __USESRCVERSION
+.section .ident, "SM",%progbits,1;
+.asciz "$URL: http://svn.ott.qnx.com/product/branches/7.0.0/trunk/hardware/startup/boards/ti-am335x/callout_timer_am335x.S $ $Rev: 781278 $";
+.previous
+#endif
+#endif 

@@ -44,40 +44,49 @@
  */
 
 patch_reboot:
-	stmdb	sp!,{r4,lr}
-	add		r4, r0, r2			/* address of callout routine */
+    stmdb    sp!,{r4,lr}
+    add      r4, r0, r2            /* address of callout routine */
 
-	/*
-	 * Map reset control registers
-	 */
-	mov		r0, #CM_PRCM_SIZE	/* size of reset control registers */
-	ldr		r1, Lpaddr
-	bl		callout_io_map
+    /*
+     * Map reset control registers
+     */
+    mov      r0, #CM_PRCM_SIZE    /* size of reset control registers */
+    adr      r1, Lpaddr
+    bl       callout_io_map_indirect
 
-	/*
-	 * Patch the callout routine
-	 */
-	CALLOUT_PATCH	r4, r0, r1, r2, ip
-	ldmia	sp!,{r4,pc}
+    /*
+     * Patch the callout routine
+     */
+    CALLOUT_PATCH    r4, r0, r1, r2, ip
+    ldmia    sp!,{r4,pc}
 
-Lpaddr:	.word	PRCM_BASE
+		.align	3
+Lpaddr:	.quad	PRCM_BASE
 
-#define ARM_CPSR_T		(1 << 5)
-#define ARM_CPSR_F		(1 << 6)
-#define ARM_CPSR_I		(1 << 7)
+#define ARM_CPSR_T        (1 << 5)
+#define ARM_CPSR_F        (1 << 6)
+#define ARM_CPSR_I        (1 << 7)
 
 CALLOUT_START(reboot_am335x, 0, patch_reboot)
-	/*
-	 * Get the base address of Clock, Reset, and Power Mode Control registers (patched)
-	 */
-	mov		ip,     #0x000000FF
-	orr		ip, ip, #0x0000FF00
-	orr		ip, ip, #0x00FF0000
-	orr		ip, ip, #0xFF000000
+    /*
+     * Get the base address of Clock, Reset, and Power Mode Control registers (patched)
+     */
+    mov        ip,     #0x000000FF
+    orr        ip, ip, #0x0000FF00
+    orr        ip, ip, #0x00FF0000
+    orr        ip, ip, #0xFF000000
 
-	mov		r1, #RST_GLOBAL_COLD_SW		/* Asserts a global cold software reset. */
-	str		r1, [ip, #PRM_DEVICE]
+    mov        r1, #RST_GLOBAL_COLD_SW        /* Asserts a global cold software reset. */
+    str        r1, [ip, #PRM_DEVICE]
 
-0:	b		0b
+0:    b        0b
 
 CALLOUT_END(reboot_am335x)
+
+#ifdef __QNXNTO__
+#ifdef __USESRCVERSION
+.section .ident, "SM",%progbits,1;
+.asciz "$URL: http://svn.ott.qnx.com/product/branches/7.0.0/trunk/hardware/startup/boards/ti-am335x/callout_reboot_am335x.S $ $Rev: 781278 $";
+.previous
+#endif
+#endif 

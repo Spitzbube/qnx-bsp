@@ -1,6 +1,6 @@
 /*
  * $QNXLicenseC:
- * Copyright 2010, QNX Software Systems.
+ * Copyright 2013, QNX Software Systems.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"). You
  * may not reproduce, modify or distribute this software except in
@@ -38,21 +38,6 @@ static paddr_t	am335x_gpio1_base     = 0x4804C000;
 static paddr_t	am335x_gpio2_base     = 0x481AC000;
 static paddr_t	am335x_gpio3_base     = 0x481AE000;
 
-extern struct callout_rtn interrupt_id_am335x;
-extern struct callout_rtn interrupt_eoi_am335x;
-extern struct callout_rtn interrupt_mask_am335x;
-extern struct callout_rtn interrupt_unmask_am335x;
-
-extern struct callout_rtn interrupt_id_edma;
-extern struct callout_rtn interrupt_eoi_edma;
-extern struct callout_rtn interrupt_mask_edma;
-extern struct callout_rtn interrupt_unmask_edma;
-
-extern struct callout_rtn interrupt_id_am335x_gpio;
-extern struct callout_rtn interrupt_eoi_am335x_gpio;
-extern struct callout_rtn interrupt_mask_am335x_gpio;
-extern struct callout_rtn interrupt_unmask_am335x_gpio;
-
 const static struct startup_intrinfo    intrs[] = {
     /* primary interrupt controller */
     {   _NTO_INTR_CLASS_EXTERNAL,       // vector base
@@ -61,10 +46,10 @@ const static struct startup_intrinfo    intrs[] = {
         0,                              // CPU vector base
         0,                              // CPU vector stride
         0,                              // flags
-        { INTR_GENFLAG_LOAD_SYSPAGE,    0, &interrupt_id_am335x},
-        { INTR_GENFLAG_LOAD_SYSPAGE | INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_am335x},
-        &interrupt_mask_am335x,         // mask   callout
-        &interrupt_unmask_am335x,       // unmask callout
+        { INTR_GENFLAG_LOAD_SYSPAGE,    0, &interrupt_id_dm816x},
+        { INTR_GENFLAG_LOAD_SYSPAGE | INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_dm816x},
+        &interrupt_mask_dm816x,         // mask   callout
+        &interrupt_unmask_dm816x,       // unmask callout
         0,                              // config callout
         &am335x_intc_base
     },
@@ -75,10 +60,10 @@ const static struct startup_intrinfo    intrs[] = {
 		0,								// CPU vector base
 		0,								// CPU vector stride
 		0,								// flags
-		{INTR_GENFLAG_LOAD_SYSPAGE, 0, &interrupt_id_edma},
-		{INTR_GENFLAG_LOAD_SYSPAGE | INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_edma},
-		&interrupt_mask_edma,			// mask   callout
-		&interrupt_unmask_edma,			// unmask callout
+		{INTR_GENFLAG_LOAD_SYSPAGE, 0, &interrupt_id_dm814x_edma},
+		{INTR_GENFLAG_LOAD_SYSPAGE | INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_dm814x_edma},
+		&interrupt_mask_dm814x_edma,			// mask   callout
+		&interrupt_unmask_dm814x_edma,			// unmask callout
 		0,								// config callout
 		&am335x_edma_intr_base
 	},
@@ -89,10 +74,10 @@ const static struct startup_intrinfo    intrs[] = {
 	    0,                              // CPU vector base
 	    0,                              // CPU vector stride
 	    0,                              // flags
-	    { 0, 0, &interrupt_id_am335x_gpio},
-	    { INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_am335x_gpio},
-	    &interrupt_mask_am335x_gpio,    // mask   callout
-	    &interrupt_unmask_am335x_gpio,  // unmask callout
+	    { 0, 0, &interrupt_id_dm814x_gpio},
+	    { INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_dm814x_gpio},
+	    &interrupt_mask_dm814x_gpio,    // mask   callout
+	    &interrupt_unmask_dm814x_gpio,  // unmask callout
 	    0,                              // config callout
 	    &am335x_gpio0_base
 	},
@@ -103,10 +88,10 @@ const static struct startup_intrinfo    intrs[] = {
 	    0,                              // CPU vector base
 	    0,                              // CPU vector stride
 	    0,                              // flags
-	    { 0, 0, &interrupt_id_am335x_gpio},
-	    { INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_am335x_gpio},
-	    &interrupt_mask_am335x_gpio,    // mask   callout
-	    &interrupt_unmask_am335x_gpio,  // unmask callout
+	    { 0, 0, &interrupt_id_dm814x_gpio},
+	    { INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_dm814x_gpio},
+	    &interrupt_mask_dm814x_gpio,    // mask   callout
+	    &interrupt_unmask_dm814x_gpio,  // unmask callout
 	    0,                              // config callout
 	    &am335x_gpio1_base
 	},
@@ -117,10 +102,10 @@ const static struct startup_intrinfo    intrs[] = {
 	    0,                              // CPU vector base
 	    0,                              // CPU vector stride
 	    0,                              // flags
-	    { 0, 0, &interrupt_id_am335x_gpio},
-	    { INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_am335x_gpio},
-	    &interrupt_mask_am335x_gpio,    // mask   callout
-	    &interrupt_unmask_am335x_gpio,  // unmask callout
+	    { 0, 0, &interrupt_id_dm814x_gpio},
+	    { INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_dm814x_gpio},
+	    &interrupt_mask_dm814x_gpio,    // mask   callout
+	    &interrupt_unmask_dm814x_gpio,  // unmask callout
 	    0,                              // config callout
 	    &am335x_gpio2_base
 	},
@@ -131,10 +116,10 @@ const static struct startup_intrinfo    intrs[] = {
 	    0,                              // CPU vector base
 	    0,                              // CPU vector stride
 	    0,                              // flags
-	    { 0, 0, &interrupt_id_am335x_gpio},
-	    { INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_am335x_gpio},
-	    &interrupt_mask_am335x_gpio,    // mask   callout
-	    &interrupt_unmask_am335x_gpio,  // unmask callout
+	    { 0, 0, &interrupt_id_dm814x_gpio},
+	    { INTR_GENFLAG_LOAD_INTRMASK, 0, &interrupt_eoi_dm814x_gpio},
+	    &interrupt_mask_dm814x_gpio,    // mask   callout
+	    &interrupt_unmask_dm814x_gpio,  // unmask callout
 	    0,                              // config callout
 	    &am335x_gpio3_base
 	},
@@ -178,4 +163,9 @@ init_intrinfo()
 }
 
 
-__SRCVERSION( "$URL$ $Rev$" );
+
+
+#if defined(__QNXNTO__) && defined(__USESRCVERSION)
+#include <sys/srcversion.h>
+__SRCVERSION("$URL: http://svn.ott.qnx.com/product/branches/7.0.0/trunk/hardware/startup/boards/ti-am335x/init_intrinfo.c $ $Rev: 781278 $")
+#endif

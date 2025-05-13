@@ -1,6 +1,6 @@
 /*
  * $QNXLicenseC:
- * Copyright 2010, QNX Software Systems.
+ * Copyright 2013, QNX Software Systems.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"). You
  * may not reproduce, modify or distribute this software except in
@@ -26,12 +26,15 @@
  */
 #include "startup.h"
 
+
 void init_raminfo()
 {
-	// EMIF0 SDRAM 0x8000_0000 0xBFFF_FFFF 1GB DDR (1 GB Space)
-	// BeagleBone AM335X 15mmx15mm: DDR2  SDRAM 256MB
-
-	add_ram(0x80000000, MEG(256));
+	  add_ram(0x80000000, MEG(512));
 }
 
-__SRCVERSION( "$URL$ $Rev$" );
+
+
+#if defined(__QNXNTO__) && defined(__USESRCVERSION)
+#include <sys/srcversion.h>
+__SRCVERSION("$URL: http://svn.ott.qnx.com/product/branches/7.0.0/trunk/hardware/startup/boards/ti-am335x/init_raminfo.c $ $Rev: 710799 $")
+#endif

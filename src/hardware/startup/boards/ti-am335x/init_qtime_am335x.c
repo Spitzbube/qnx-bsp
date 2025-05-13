@@ -1,6 +1,6 @@
 /*
  * $QNXLicenseC:
- * Copyright 2010, QNX Software Systems.
+ * Copyright 2013, QNX Software Systems.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"). You
  * may not reproduce, modify or distribute this software except in
@@ -27,7 +27,6 @@
 
 #include "startup.h"
 #include <arm/am335x.h>
-#include <arm/beaglebone.h>
 
 #define AM335X_CLOCK_FREQ   24000000UL
 #define AM335X_CLOCK_RATE   41666666UL
@@ -47,15 +46,15 @@ static const struct callout_slot    timer_callouts[] = {
 static unsigned
 timer_start_am335x()
 {
-    out32(timer_base + DM816X_TIMER_TCLR, 
-        in32(timer_base + DM816X_TIMER_TCLR) | DM816X_TIMER_TCLR_ST);
-    return in32(timer_base + DM816X_TIMER_TCRR);
+    out32(timer_base + AM335X_TIMER_TCLR, 
+        in32(timer_base + AM335X_TIMER_TCLR) | AM335X_TIMER_TCLR_ST);
+    return in32(timer_base + AM335X_TIMER_TCRR);
 }
 
 static unsigned
 timer_diff_am335x(unsigned start)
 {
-    unsigned now = in32(timer_base + DM816X_TIMER_TCRR);
+    unsigned now = in32(timer_base + AM335X_TIMER_TCRR);
     return (now - start);
 }
 
@@ -70,8 +69,8 @@ init_qtime_am335x()
     timer_base = startup_io_map(AM335X_TIMER_SIZE, AM335X_TIMER2_BASE);
 
     /* Clear timer count and reload count */
-    out32(timer_base + DM816X_TIMER_TLDR, 0);
-    out32(timer_base + DM816X_TIMER_TCRR, 0);
+    out32(timer_base + AM335X_TIMER_TLDR, 0);
+    out32(timer_base + AM335X_TIMER_TCRR, 0);
 
     /*
      * Setup Timer0
@@ -79,7 +78,7 @@ init_qtime_am335x()
      * Prescaler disable
      * Stop timer, timer_load will enable it
      */
-    out32(timer_base + DM816X_TIMER_TCLR, (DM816X_TIMER_TCLR_PRE_DISABLE | DM816X_TIMER_TCLR_AR));
+    out32(timer_base + AM335X_TIMER_TCLR, (AM335X_TIMER_TCLR_PRE_DISABLE | AM335X_TIMER_TCLR_AR));
 
     timer_start = timer_start_am335x;
     timer_diff  = timer_diff_am335x;
@@ -94,4 +93,9 @@ init_qtime_am335x()
 }
 
 
-__SRCVERSION( "$URL$ $Rev$" );
+
+
+#if defined(__QNXNTO__) && defined(__USESRCVERSION)
+#include <sys/srcversion.h>
+__SRCVERSION("$URL: http://svn.ott.qnx.com/product/branches/7.0.0/trunk/hardware/startup/boards/ti-am335x/init_qtime_am335x.c $ $Rev: 716637 $")
+#endif
