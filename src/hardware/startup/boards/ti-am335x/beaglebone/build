@@ -132,7 +132,7 @@
     ## USB OTG Host Controller driver
     #######################################################################
     display_msg Starting USB OTG Host driver...
-    io-usb-otg -d hcd-dm816x-mg ioport=0x47401c00,irq=19
+    io-usb-otg -d test-dm816x-mg ioport=0x47401c00,irq=19
     waitfor /dev/usb/io-usb-otg 4
     devb-umass cam pnp
 
@@ -309,7 +309,8 @@ fs-udf.so
 ###########################################################################
 ## uncomment for USB Host controller driver
 ###########################################################################
-devu-hcd-dm816x-mg.so
+devu-hcd-test-dm816x-mg.so
+libdevu-hcd-dm816x-mg.so
 libusbdi.so
 
 ###########################################################################
