@@ -132,9 +132,9 @@
     ## USB OTG Host Controller driver
     #######################################################################
     display_msg Starting USB OTG Host driver...
-#    io-usb-otg -d hcd-dm816x-mg ioport=0x47401c00,irq=19
-#    waitfor /dev/usb/io-usb-otg 4
-#    devb-umass cam pnp
+    io-usb-otg -d hcd-dm816x-mg ioport=0x47401c00,irq=19
+    waitfor /dev/usb/io-usb-otg 4
+    devb-umass cam pnp
 
     #######################################################################
     ## USB OTG port (operating in device mode)...
@@ -316,11 +316,11 @@ libusbdi.so
 ## uncomment for USB Device Controller drivers
 ###########################################################################
 libusbdci.so # uncommented by sami
-devu-dcd-am335x-musbmhdrc.so # uncommented by sami
+#devu-dcd-am335x-musbmhdrc.so # uncommented by sami
 #devu-dcd-usbumass-am335x-musbmhdrc.so
 #devu-dcd-usbser-am335x-musbmhdrc.so
-devu-dcd-usbncm-am335x-musbmhdrc.so # uncmmented by sami
-devu-usbncm-am335x-musbmhdrc.so # added by sami
+#devu-dcd-usbncm-am335x-musbmhdrc.so # uncmmented by sami
+#devu-usbncm-am335x-musbmhdrc.so # added by sami
 #devu-dcd-usbaudio-am335x-musbmhdrc.so
 
 ###########################################################################
