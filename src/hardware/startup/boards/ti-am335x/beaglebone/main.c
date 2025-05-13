@@ -84,8 +84,11 @@ main(int argc, char **argv, char **envv)
     int opt;
 
     add_callout_array(callouts, sizeof(callouts));
+
+#if 0
     // Override u-boot: Disable WDT [DEFAULT]
     wdt_disable();
+#endif
 
     while ((opt = getopt(argc, argv, COMMON_OPTIONS_STRING "d")) != -1) {
         switch (opt) {
@@ -111,7 +114,9 @@ main(int argc, char **argv, char **envv)
      */
     init_clocks();
 
+#if 0
     get_boardid_i2c(&boneid);
+#endif
 
     // This BSP assumes no capes. If there are any capes, select a profile
     // for init_pinmux_capes and implement the profile for your cape. Some

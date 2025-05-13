@@ -61,7 +61,7 @@ ADD_USAGE=
 -include $(PROJECT_ROOT)/roots.mk
 
 ifndef LIBSTARTUP_ROOT
-LIBSTARTUP_ROOT=$(PRODUCT_ROOT)/lib
+LIBSTARTUP_ROOT=$(PRODUCT_ROOT)/../../../../src/hardware/startup/lib
 endif
 
 EXAMPLE_BUILDFILES:=$(wildcard *build $(BOARD_ROOT)/*build)

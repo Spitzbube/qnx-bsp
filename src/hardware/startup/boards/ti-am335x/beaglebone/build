@@ -39,7 +39,7 @@
     ## Use "-d" to enable watchdog timer support
     ##          please run "dm814x-wdtkick" with this option
     #######################################################################
-    startup-ti-am335x-beaglebone -d
+    startup-ti-am335x-beaglebone -vvvvvvvvvvvvv
 
     #######################################################################
     ## PATH set here is the *safe* path for executables.
@@ -47,7 +47,7 @@
     ##     i.e. These are the paths searched by setuid/setgid binaries.
     ##          (confstr(_CS_PATH...) and confstr(_CS_LIBPATH...))
     #######################################################################
-    PATH=:/proc/boot:/bin:/usr/bin:/sbin LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll procnto-smp-instr -v
+    PATH=:/proc/boot:/bin:/usr/bin:/sbin LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll procnto-smp-instr -vvvvvvvvvvv
 }
 [+script] .script = {
     # Initialise the console
@@ -63,9 +63,9 @@
     #######################################################################
     ## SERIAL driver
     #######################################################################
-    devc-seromap -e -F -b115200 -c48000000/16 0x44E09000^2,72
-    waitfor /dev/ser1 4
-    reopen /dev/ser1
+#    devc-seromap -e -F -b115200 -c48000000/16 0x44E09000^2,72
+#    waitfor /dev/ser1 4
+#    reopen /dev/ser1
  
     #######################################################################
     ## MMC/SD driver
@@ -74,20 +74,20 @@
     # MMC 0 pio
     # devb-sdmmc-j5_generic sdio addr=0x48060000,irq=64,dma=25,dma=24,dma=128,dma=32,verbose=3,bs=nocd:nowp cam pio,cache,pnp,async blk cache=8M disk name=sd
     # MMC 0 dma
-    devb-sdmmc-j5_generic sdio addr=0x48060000,irq=64,dma=25,dma=24,dma=128,dma=32,verbose=3,bs=nocd:nowp cam cache,pnp,async blk cache=8M disk name=sd
+#    devb-sdmmc-j5_generic sdio addr=0x48060000,irq=64,dma=25,dma=24,dma=128,dma=32,verbose=3,bs=nocd:nowp cam cache,pnp,async blk cache=8M disk name=sd
 
     # uncomment to mount the eMMC device on the Beaglebone Black board
-    devb-sdmmc-j5_generic sdio addr=0x481D8000,irq=28,verbose=3,dma=3,dma=2,dma=160,dma=32,bs=emmc,bw=4 cam quiet,cache blk rw,cache=2M disk name=emmc
+#    devb-sdmmc-j5_generic sdio addr=0x481D8000,irq=28,verbose=3,dma=3,dma=2,dma=160,dma=32,bs=emmc,bw=4 cam quiet,cache blk rw,cache=2M disk name=emmc
 	
-	waitfor /dev/sd0t12 3 # added by sami
-	mount -t dos /dev/sd0t12 /mnt/sd # added by sami
+#	waitfor /dev/sd0t12 3 # added by sami
+#	mount -t dos /dev/sd0t12 /mnt/sd # added by sami
     #######################################################################
     ## I2C driver
     #######################################################################
     display_msg starting I2C driver...
     # Uncomment for /dev/i2c0
-    i2c-omap35xx-j5 -i 70 -p0x44E0B000 --u0
-    waitfor /dev/i2c0
+#    i2c-omap35xx-j5 -i 70 -p0x44E0B000 --u0
+#    waitfor /dev/i2c0
 
     # Uncomment for /dev/i2c1 – pin mux'ing must also be set up in init_pinmux.c
     # i2c-omap35xx-j5 -i 71 -p0x4802A000 --u1
@@ -103,7 +103,7 @@
     #  -t    Timeout Period of watchdog timer in milliseconds. (Default: 2x the kicktime)
     #######################################################################
     display_msg starting WDT reset utility...
-    dm814x-wdtkick -a 0x44E35000 -t 15000 -l64
+#    dm814x-wdtkick -a 0x44E35000 -t 15000 -l64
 
     #######################################################################
     ## Random service
@@ -117,24 +117,24 @@
     #######################################################################
     display_msg starting Board ID driver...
     ## Uncomment for board id
-    am335x-boardid &
-    waitfor /dev/bdid 1
+#    am335x-boardid &
+#    waitfor /dev/bdid 1
 
     #######################################################################
     ## RTC driver (TPS65910) utility
     ##  - It requires I2C driver
     #######################################################################
     display_msg Setting OS Clock from on-board RTC
-    rtc -b 0x44e3e000 dm816x
-    date
+#    rtc -b 0x44e3e000 dm816x
+#    date
     
     #######################################################################
     ## USB OTG Host Controller driver
     #######################################################################
     display_msg Starting USB OTG Host driver...
-    io-usb-otg -d hcd-dm816x-mg ioport=0x47401c00,irq=19
-    waitfor /dev/usb/io-usb-otg 4
-    devb-umass cam pnp
+#    io-usb-otg -d hcd-dm816x-mg ioport=0x47401c00,irq=19
+#    waitfor /dev/usb/io-usb-otg 4
+#    devb-umass cam pnp
 
     #######################################################################
     ## USB OTG port (operating in device mode)...
@@ -212,16 +212,16 @@
     #  SPI0
     #spi-master -d dm816x base=0x48030100,irq=65,edma=1,edmairq=529,edmachannel=17
     #  SPI1
-    spi-master -d dm816x base=0x481A0100,irq=125,edma=1,edmairq=555,edmachannel=43
+#    spi-master -d dm816x base=0x481A0100,irq=125,edma=1,edmairq=555,edmachannel=43
 
     #######################################################################
     ## Network driver
     #######################################################################
     display_msg Starting network driver...
-    io-pkt-v6-hc -d dm814x-am335x deviceindex=0,p0mode=gmii
-    if_up -p dm0
-    ifconfig dm0 up
-    dhclient -nw dm0
+#    io-pkt-v6-hc -d dm814x-am335x deviceindex=0,p0mode=gmii
+#    if_up -p dm0
+#    ifconfig dm0 up
+#    dhclient -nw dm0
 
     #######################################################################
     ## REMOTE_DEBUG (gdb or Momentics)
@@ -229,17 +229,17 @@
     ##    for more information on remote debugging
     ##  - the commands shown require that NETWORK is enabled too
     #######################################################################
-    devc-pty
-    waitfor /dev/ptyp0 4
-    waitfor /dev/socket 4
-    qconn
+#    devc-pty
+#    waitfor /dev/ptyp0 4
+#    waitfor /dev/socket 4
+#    qconn
 
     #######################################################################
     ## Leds driver
     #######################################################################
     display_msg starting leds driver...
-    am335x-leds &
-    waitfor /dev/leds 4
+#    am335x-leds &
+#    waitfor /dev/leds 4
     
     #######################################################################
     ## INETD daemon
@@ -251,26 +251,26 @@
     # added by sami
 	display_msg Starting ncm device
     # Step 1 - Start USB device stack
-    io-usb-otg -d dcd-usbncm-am335x-musbmhdrc ioport=0x47401400,irq=18,nodma,force_device_mode,inherit_cfg -n /dev/usb-dcd/io-usb-otg
-    waitfor /dev/usb-dcd/io-usb-otg 4
-    waitfor /dev/usb-dcd/devu-usbncm-am335x-musbmhdrc.so 4
+#    io-usb-otg -d dcd-usbncm-am335x-musbmhdrc ioport=0x47401400,irq=18,nodma,force_device_mode,inherit_cfg -n /dev/usb-dcd/io-usb-otg
+#    waitfor /dev/usb-dcd/io-usb-otg 4
+#    waitfor /dev/usb-dcd/devu-usbncm-am335x-musbmhdrc.so 4
 
     # Step 2 - Start USB NCM function driver
     # For best performance attach the usbdnet driver to an existing io-pkt stack. Alternatively multiple
     # io-pkt stacks can be used (see SDP documentation for more details).
-    io-pkt-v6-hc -d usbdnet mac=123456789abc,protocol=ncm,path=/dev/usb-dcd/io-usb-otg
-    ulink_ctrl -s /dev/usb-dcd/io-usb-otg -l 1
+#    io-pkt-v6-hc -d usbdnet mac=123456789abc,protocol=ncm,path=/dev/usb-dcd/io-usb-otg
+#    ulink_ctrl -s /dev/usb-dcd/io-usb-otg -l 1
 
     # Step 3 - Assign IP address to ncm interface using DHCP OR any static IP.
-    if_up -p ncm0
+#    if_up -p ncm0
     
     # Assign ip adress
-    ifconfig ncm0 up
-    ifconfig ncm0 192.168.8.2
+#    ifconfig ncm0 up
+#    ifconfig ncm0 192.168.8.2
     
     # Start dhcp server
     # dhcpd.leases manually added to mounted sd card.
-    dhcpd -lf /mnt/sd/dhcpd.leases
+#    dhcpd -lf /mnt/sd/dhcpd.leases
 
     #ifconfig ncm0 192.168.10.100
     # OR

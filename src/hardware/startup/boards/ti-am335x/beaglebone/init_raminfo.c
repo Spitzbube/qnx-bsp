@@ -33,12 +33,14 @@ void init_raminfo_beaglebone(BEAGLEBONE_ID boneid)
 
 	switch (boneid.basebd_type)
 	{
+#if 0
 		case bb_BeagleBoneBlack:
 			ramsize = 512;
 			break;
 		case bb_BeagleBone:
 			ramsize = 256;
 			break;
+#endif
 		default:
 			ramsize = 256;
 			kprintf("%s : unable to determine board type, setting amount of RAM to 256MB\n");

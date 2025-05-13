@@ -152,6 +152,7 @@ void get_boardid_i2c(BEAGLEBONE_ID *boneid)
 
 unsigned long detect_frequency_using_power()
 {    
+#if 0
     uint8_t        val[40]= { 0, 0 };    
     int            rr;
     unsigned long retval = AM335X_MPUFREQ_500M; // Default value assumes USB Powered    
@@ -179,6 +180,9 @@ unsigned long detect_frequency_using_power()
         return retval;
     }
     return -1;
+#else
+    return AM335X_MPUFREQ_720M;
+#endif
 }
 
 #if defined(__QNXNTO__) && defined(__USESRCVERSION)
