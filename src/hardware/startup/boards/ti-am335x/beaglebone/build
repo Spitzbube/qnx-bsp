@@ -47,7 +47,7 @@
     ##     i.e. These are the paths searched by setuid/setgid binaries.
     ##          (confstr(_CS_PATH...) and confstr(_CS_LIBPATH...))
     #######################################################################
-    PATH=:/proc/boot:/bin:/usr/bin:/sbin LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll procnto-smp-instr -vvvvvvvvvvv
+    PATH=:/proc/boot:/bin:/usr/bin:/sbin:/usr/sbin LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll procnto-smp-instr -vvvvvvvvvvv
 }
 [+script] .script = {
     # Initialise the console
@@ -63,9 +63,9 @@
     #######################################################################
     ## SERIAL driver
     #######################################################################
-#    devc-seromap -e -F -b115200 -c48000000/16 0x44E09000^2,72
-#    waitfor /dev/ser1 4
-#    reopen /dev/ser1
+    devc-seromap -e -F -b115200 -c48000000/16 0x44E09000^2,72
+    waitfor /dev/ser1 4
+    reopen /dev/ser1
  
     #######################################################################
     ## MMC/SD driver
@@ -218,9 +218,9 @@
     ## Network driver
     #######################################################################
     display_msg Starting network driver...
-#    io-pkt-v6-hc -d dm814x-am335x deviceindex=0,p0mode=gmii
-#    if_up -p dm0
-#    ifconfig dm0 up
+    io-pkt-v6-hc -d dm814x-am335x deviceindex=0,p0mode=gmii
+    if_up -p dm0
+    ifconfig dm0 192.168.0.10 up
 #    dhclient -nw dm0
 
     #######################################################################
@@ -229,9 +229,9 @@
     ##    for more information on remote debugging
     ##  - the commands shown require that NETWORK is enabled too
     #######################################################################
-#    devc-pty
-#    waitfor /dev/ptyp0 4
-#    waitfor /dev/socket 4
+    devc-pty
+    waitfor /dev/ptyp0 4
+    waitfor /dev/socket 4
 #    qconn
 
     #######################################################################
@@ -244,8 +244,8 @@
     #######################################################################
     ## INETD daemon
     #######################################################################
-    #display_msg Starting inetd daemon
-    #inetd
+    display_msg Starting inetd daemon
+    inetd
     
     ##### Example of NCM device (Ethernet over USB) #####
     # added by sami
@@ -619,6 +619,7 @@ fdisk
 waitfor
 random
 hidview
+tftp
 
 
 ###########################################################################
