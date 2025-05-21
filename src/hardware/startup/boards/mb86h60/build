@@ -7,7 +7,7 @@
 }
 
 [+script] .script = {
-	display_msg Welcome to QNX Neutrino 6.5.0 on the Raspberry pi
+	display_msg Welcome to QNX Neutrino 6.5.0-SP1 on the MB86H60
 
 	PATH=:/proc/boot:/sbin:/bin:/usr/sbin:/usr/bin:/opt/bin
 	LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll:/opt/lib
@@ -28,6 +28,12 @@
 	waitfor /dev/ser1 4
 	reopen /dev/ser1  
 	display_msg Serial opened...
+
+    #######################################################################
+    ## USB OTG Host Controller driver
+    #######################################################################
+    display_msg Starting USB OTG Host driver...
+    io-usb -vvvvv -d mb86h60-mg ioport=0xc7000800,irq=21
 
 	#######################################################################
 	## These env variables are inherited by all the programs which follow
@@ -56,6 +62,9 @@ libc.so.3
 [data=c]
 
 devc-serdebug
+
+devu-mb86h60-mg.so
+io-usb
 
 ###########################################################################
 ## general commands
