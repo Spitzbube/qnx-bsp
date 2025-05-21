@@ -77,7 +77,7 @@
 #    devb-sdmmc-j5_generic sdio addr=0x48060000,irq=64,dma=25,dma=24,dma=128,dma=32,verbose=3,bs=nocd:nowp cam cache,pnp,async blk cache=8M disk name=sd
 
     # uncomment to mount the eMMC device on the Beaglebone Black board
-#    devb-sdmmc-j5_generic sdio addr=0x481D8000,irq=28,verbose=3,dma=3,dma=2,dma=160,dma=32,bs=emmc,bw=4 cam quiet,cache blk rw,cache=2M disk name=emmc
+    devb-sdmmc-j5_generic sdio addr=0x481D8000,irq=28,verbose=3,dma=3,dma=2,dma=160,dma=32,bs=emmc,bw=4 cam quiet,cache blk rw,cache=2M disk name=emmc
 	
 #	waitfor /dev/sd0t12 3 # added by sami
 #	mount -t dos /dev/sd0t12 /mnt/sd # added by sami
@@ -86,8 +86,8 @@
     #######################################################################
     display_msg starting I2C driver...
     # Uncomment for /dev/i2c0
-#    i2c-omap35xx-j5 -i 70 -p0x44E0B000 --u0
-#    waitfor /dev/i2c0
+    i2c-omap35xx-j5 -i 70 -p0x44E0B000 --u0
+    waitfor /dev/i2c0
 
     # Uncomment for /dev/i2c1 – pin mux'ing must also be set up in init_pinmux.c
     # i2c-omap35xx-j5 -i 71 -p0x4802A000 --u1
@@ -103,7 +103,7 @@
     #  -t    Timeout Period of watchdog timer in milliseconds. (Default: 2x the kicktime)
     #######################################################################
     display_msg starting WDT reset utility...
-#    dm814x-wdtkick -a 0x44E35000 -t 15000 -l64
+    dm814x-wdtkick -a 0x44E35000 -t 15000 -l64
 
     #######################################################################
     ## Random service
@@ -117,8 +117,8 @@
     #######################################################################
     display_msg starting Board ID driver...
     ## Uncomment for board id
-#    am335x-boardid &
-#    waitfor /dev/bdid 1
+    am335x-boardid &
+    waitfor /dev/bdid 1
 
     #######################################################################
     ## RTC driver (TPS65910) utility
@@ -238,8 +238,8 @@
     ## Leds driver
     #######################################################################
     display_msg starting leds driver...
-#    am335x-leds &
-#    waitfor /dev/leds 4
+    am335x-leds &
+    waitfor /dev/leds 4
     
     #######################################################################
     ## INETD daemon
