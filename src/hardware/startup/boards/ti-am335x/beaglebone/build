@@ -212,7 +212,7 @@
     #  SPI0
     #spi-master -d dm816x base=0x48030100,irq=65,edma=1,edmairq=529,edmachannel=17
     #  SPI1
-#    spi-master -d dm816x base=0x481A0100,irq=125,edma=1,edmairq=555,edmachannel=43
+    spi-master -d dm816x base=0x481A0100,irq=125,edma=1,edmairq=555,edmachannel=43
 
     #######################################################################
     ## Network driver
