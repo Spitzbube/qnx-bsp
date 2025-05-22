@@ -1,8 +1,8 @@
 
-[image=0x00200000]
+[image=0x20000000]
 
 [virtual=armle,raw] .bootstrap = {
-	startup-mb86h60 -vvvvv
+	startup-mb86h60 -vvvvvvv
 	PATH=:/proc/boot:/sbin:/bin:/usr/sbin:/usr/bin LD_LIBRARY_PATH=:/proc/boot:/lib:/usr/lib:/lib/dll procnto-v6 -vvvvv
 }
 
@@ -23,9 +23,11 @@
 	## Note: clock 24MHz, baud 115200, shift 2, IRQ33
 	##       see devc
 	#######################################################################
-    display_msg Starting DBGU driver...
-	devc-serdebug -e -F -S -b115200 -c133000000 0x09000000,33
+ 	display_msg Starting UART0 driver...
+	devc-serdebug -e -F -S -b115200 -c133000000 0xC2000000,8
+	display_msg Waiting for device...
 	waitfor /dev/ser1 4
+	display_msg Reopening for device...
 	reopen /dev/ser1  
 	display_msg Serial opened...
 
