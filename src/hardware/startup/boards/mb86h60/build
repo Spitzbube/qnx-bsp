@@ -36,6 +36,14 @@
     #######################################################################
     display_msg Starting USB OTG Host driver...
     io-usb -vvvvv -d mb86h60-mg ioport=0xc7000800,irq=21
+    waitfor /dev/io-usb/io-usb 4
+    display_msg USB device node available
+    CACHE_NOP=1 devb-umass cam pnp
+#    waitfor /dev/hd0 4
+#    mount -t dos -o exe=all /dev/hd0t12 /mnt
+#    mount -t ext2 /dev/hd0t131 /mnt
+#    mount -t qnx6 /dev/hd0t131 /mnt
+#    waitfor /mnt 4
 
 	#######################################################################
 	## These env variables are inherited by all the programs which follow
@@ -58,6 +66,15 @@
 # Shared libraries
 libc.so.3
 
+libusbdi.so
+libcam.so
+io-blk.so
+cam-disk.so
+fs-ext2.so
+fs-dos.so
+#fs-nt.so
+#fs-qnx6.so
+
 [data=copy]
 
 # Executables
@@ -67,6 +84,8 @@ devc-serdebug
 
 devu-mb86h60-mg.so
 io-usb
+usb
+devb-umass
 
 ###########################################################################
 ## general commands
@@ -80,3 +99,13 @@ use
 sloginfo
 ls
 shutdown
+ldd
+pidin
+mount
+touch
+df
+cp
+#mkqnx6fs
+chmod
+
+
