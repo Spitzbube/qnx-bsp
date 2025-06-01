@@ -77,7 +77,9 @@ timer_diff_mb86h60(unsigned start)
         diff = (start + TIMER_LOAD_VAL - now);
     }
 
+#if 0
     kprintf("timer_diff_mb86h60: start=%d, now=%d, diff=%d\n", start, now, diff);
+#endif
 
     return diff;
 }

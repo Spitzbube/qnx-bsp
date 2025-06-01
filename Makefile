@@ -32,6 +32,7 @@ clean:
 install: $(if $(wildcard prebuilt/*),prebuilt)
 	$(MAKE) -Csrc hinstall
 	$(MAKE) -Csrc install
+	ntoarm-objdump -hds install/armle/lib/dll/devu-mb86h60-mg.so > install/armle/lib/dll/devu-mb86h60-mg.so.dump
 
 #
 # Have to invoke "make_links" target because the first make expands
