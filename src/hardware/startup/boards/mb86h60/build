@@ -50,9 +50,11 @@
     #######################################################################
     display_msg Starting network driver...
     CACHE_NOP=1 io-pkt-v4-hc -d fmac3h
-    if_up -p eth0
-    ifconfig eth0 192.168.0.10 up
+#    if_up -p eth0
+#    ifconfig eth0 192.168.0.10 up
+#    ifconfig eth0 192.168.2.59 up
 #    dhclient -nw eth0
+#	dhcp.client
 
 	#######################################################################
 	## These env variables are inherited by all the programs which follow
@@ -103,6 +105,7 @@ io-pkt-v4-hc
 if_up
 nicinfo
 ifconfig
+dhcp.client
 
 ###########################################################################
 ## general commands
